@@ -33,25 +33,11 @@ jobs:
         sudo apt-get install -y build-essential cmake git libudev-dev autoconf automake libtool \
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev
 
-    - name: Install vcpkg on Ubuntu
-      if: matrix.os == 'ubuntu-latest'
+    - name: Configure CMake with CPM
       run: |
-        git clone https://github.com/microsoft/vcpkg.git
-        cd vcpkg
-        ./bootstrap-vcpkg.sh
-        ./vcpkg install boost sfml
-
-    - name: Install vcpkg on Windows
-      if: matrix.os == 'windows-latest'
-      run: |
-        git clone https://github.com/microsoft/vcpkg.git
-        cd vcpkg
-        .\bootstrap-vcpkg.bat
-        .\vcpkg install boost sfml
-
-    - name: Configure CMake
-      run: |
-        cmake -B build -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S .
+        cmake -B build \
+        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
+        -S .
 
     - name: Build rtype
       run: cmake --build build
