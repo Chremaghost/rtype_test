@@ -26,6 +26,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install required system packages on Ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake git libudev-dev
+
     - name: Install Conan
       run: |
         pip install conan
@@ -37,8 +43,6 @@ jobs:
     - name: Install dependencies on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential cmake git
         conan install . --build=missing
 
     - name: Install dependencies on Windows
