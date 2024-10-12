@@ -14,13 +14,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        cpp_compiler: [g++, clang++, cl]
+        cpp_compiler: [g++, clang++]
         include:
-          # Configuration pour Windows avec le compilateur cl
           - os: windows-latest
             cpp_compiler: cl
-
-          # Configuration pour Ubuntu avec g++ et clang++
           - os: ubuntu-latest
             cpp_compiler: g++
           - os: ubuntu-latest
@@ -29,7 +26,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # Installation des dépendances sur Ubuntu
     - name: Install required system packages on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -38,33 +34,29 @@ jobs:
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
           libvorbis-dev libogg-dev libflac-dev libopenal-dev
 
-    # Installation des dépendances sur Windows
-    - name: Setup Visual Studio and dependencies on Windows
+    - name: Setup Visual Studio
       if: matrix.os == 'windows-latest'
       run: |
         choco install visualstudio2022community --package-parameters "--includeOptional --quiet"
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+
+    - name: Configure CMake with CPM
+      run: |
+        if [ "${{ matrix.os }}" == "windows-latest" ]; then
+          call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+        fi
+        cmake -B build \
+        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
+        -S .
+
+    - name: Install required packages on Windows
+      if: matrix.os == 'windows-latest'
+      run: |
         choco install openal boost-msvc14.1 sfml
 
-    # Configuration CMake avec CPM sur Windows
-    - name: Configure CMake with CPM on Windows
-      if: matrix.os == 'windows-latest'
-      shell: cmd
-      run: |
-        "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-        cmake -B build -DCMAKE_CXX_COMPILER=cl -S .
-
-    # Configuration CMake avec CPM sur Ubuntu
-    - name: Configure CMake with CPM on Ubuntu
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S .
-
-    # Compilation du projet
     - name: Build rtype
       run: cmake --build build
 
-    # Exécution des tests
     - name: Test rtype
       working-directory: ./build
       run: ctest --verbose
