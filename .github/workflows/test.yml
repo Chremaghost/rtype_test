@@ -39,14 +39,19 @@ jobs:
       run: |
         choco install visualstudio2022community --package-parameters "--includeOptional --quiet"
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+        
+        # Check if the vcvarsall.bat exists and set the path
+        if (Test-Path "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat") {
+          & "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+        } else {
+          Write-Error "vcvarsall.bat not found. Ensure Visual Studio is installed correctly."
+          exit 1
+        }
 
     - name: Configure CMake with CPM
       run: |
-        if ($env:RUNNER_OS -eq 'Windows') {
-          & "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-        }
-        cmake -B build `
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} `
+        cmake -B build \
+        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
         -S .
 
     - name: Install required packages on Windows
