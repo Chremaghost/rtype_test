@@ -2,9 +2,9 @@ name: Build and Test rtype on Linux and Windows
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
@@ -42,20 +42,20 @@ jobs:
         choco install visualstudio2022community --package-parameters "--includeOptional --quiet"
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 
-    # Configuration de CMake avec CPM sur Windows
+    # Exécution du script vcvarsall pour configurer Visual Studio sur Windows
     - name: Configure CMake with CPM on Windows
       if: matrix.os == 'windows-latest'
       run: |
         call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-        cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S .
+        cmake -B build -S . -DCMAKE_CXX_COMPILER=cl
 
-    # Installation des dépendances sur Windows
+    # Installation des dépendances requises sur Windows
     - name: Install required packages on Windows
       if: matrix.os == 'windows-latest'
       run: |
         choco install openal boost-msvc14.1 sfml
 
-    # Configuration de CMake sur Ubuntu
+    # Configuration de CMake avec CPM sur Ubuntu
     - name: Configure CMake with CPM on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
