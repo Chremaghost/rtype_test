@@ -103,3 +103,4 @@ echo "Conan est maintenant configuré."
 
 cmake . .
 cmake --build . -- -j2
+case 
