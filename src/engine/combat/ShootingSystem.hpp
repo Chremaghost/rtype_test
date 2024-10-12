@@ -16,7 +16,7 @@ public:
             auto input = entity->getComponent<InputComponent>();
             auto transform = entity->getComponent<TransformComponent>();
 
-	    if (input && transform && input->isKeyPressed(sf::Keyboard::Space)) {
+	    if (input && transform && input->isKeyPressed(sf::Keyboard::Key::Space)) {
                 // Utiliser le pool pour récupérer un missile
                 auto missile = missilePool.getObject();
                 missile->addComponent(std::make_shared<TransformComponent>(transform->x, transform->y));

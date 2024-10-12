@@ -17,6 +17,7 @@ public:
             std::cerr << "Erreur lors du chargement de explosion.wav" << std::endl;
         }
         buffers["explosion"] = explosionBuffer;
+
         // Charger et jouer la musique de fond
         if (!backgroundMusic.openFromFile("assets/sounds/background_music.ogg")) {
             std::cerr << "Erreur lors du chargement de background_music.ogg" << std::endl;
@@ -26,7 +27,6 @@ public:
         }
     }
 
-    // Joue un son spécifique avec la possibilité de jouer plusieurs instances en parallèle
     void playSound(const std::string& soundName) {
         if (buffers.find(soundName) != buffers.end()) {
             sf::Sound sound;
@@ -38,7 +38,6 @@ public:
         }
     }
 
-    // Mettre à jour les sons actifs et nettoyer ceux qui ont fini de jouer
     void update() {
         activeSounds.erase(std::remove_if(activeSounds.begin(), activeSounds.end(),
             [](const sf::Sound& sound) {
