@@ -36,13 +36,11 @@ jobs:
       run: |
         pip install conan
 
-    - name: Create or update default Conan profile
+    - name: Create default Conan profile
       run: |
-        conan profile detect
-        conan profile update settings.compiler.cppstd=gnu17 default
-        conan profile update settings.compiler.version=11 default
-        conan profile update settings.build_type=Release default
-        conan profile update tools.system.package_manager:mode=install default
+        conan profile new default --detect
+        echo "[settings]" >> ~/.conan2/profiles/default
+        echo "tools.system.package_manager:mode=install" >> ~/.conan2/profiles/default
 
     - name: Install dependencies on Ubuntu
       if: matrix.os == 'ubuntu-latest'
