@@ -1,12 +1,11 @@
 [requires]
-boost/1.82.0
-qt/5.15.2
-portaudio/19.7.0
+boost/1.83.0
+sfml/2.5.1
 
 [generators]
-cmake
 cmake_find_package
+cmake_paths
 
 [options]
-qt:shared=True
-boost:header_only=False
+boost:shared=False  # Indique que Boost doit être compilé en statique
+sfml:audio=True     # Indique que l'audio de SFML est inclus
