@@ -2,9 +2,9 @@ name: Build and Test rtype on Linux and Windows
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -16,8 +16,11 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         cpp_compiler: [g++, clang++, cl]
         include:
+          # Configuration pour Windows avec le compilateur cl
           - os: windows-latest
             cpp_compiler: cl
+
+          # Configuration pour Ubuntu avec g++ et clang++
           - os: ubuntu-latest
             cpp_compiler: g++
           - os: ubuntu-latest
@@ -26,7 +29,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # Installation des paquets requis sur Ubuntu
+    # Installation des dépendances sur Ubuntu
     - name: Install required system packages on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -35,37 +38,28 @@ jobs:
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
           libvorbis-dev libogg-dev libflac-dev libopenal-dev
 
-    # Configuration de Visual Studio sur Windows
-    - name: Setup Visual Studio
+    # Installation des dépendances sur Windows
+    - name: Setup Visual Studio and dependencies on Windows
       if: matrix.os == 'windows-latest'
       run: |
         choco install visualstudio2022community --package-parameters "--includeOptional --quiet"
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-
-    # Exécution du script vcvarsall pour configurer Visual Studio sur Windows
-    - name: Configure CMake with CPM on Windows
-      if: matrix.os == 'windows-latest'
-      run: |
-        call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-        cmake -B build -S . -DCMAKE_CXX_COMPILER=cl
-
-    # Installation des dépendances requises sur Windows
-    - name: Install required packages on Windows
-      if: matrix.os == 'windows-latest'
-      run: |
         choco install openal boost-msvc14.1 sfml
 
-    # Configuration de CMake avec CPM sur Ubuntu
-    - name: Configure CMake with CPM on Ubuntu
-      if: matrix.os == 'ubuntu-latest'
+    # Configuration CMake avec CPM
+    - name: Configure CMake with CPM
       run: |
+        # Pour Windows, exécuter vcvarsall.bat pour configurer l'environnement
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+        fi
         cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S .
 
     # Compilation du projet
     - name: Build rtype
       run: cmake --build build
 
-    # Tests
+    # Exécution des tests
     - name: Test rtype
       working-directory: ./build
       run: ctest --verbose
