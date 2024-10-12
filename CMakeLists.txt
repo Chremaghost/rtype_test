@@ -21,13 +21,12 @@ CPMAddPackage(
 CPMAddPackage(
     NAME SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.5.1
+    GIT_TAG master
 )
 
 # Vérifiez que les dépendances sont trouvées
 find_package(Boost REQUIRED COMPONENTS asio system filesystem thread)
 find_package(SFML REQUIRED COMPONENTS graphics window system audio)
-message(STATUS "SFML libraries: ${SFML_LIBRARIES}")
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
 
@@ -35,7 +34,6 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
 set(NETWORK_SOURCES
     src/client/ClientNetworkManager.cpp
     src/server/ServerNetworkManager.cpp
-    # Autres fichiers réseau
 )
 
 # Fichiers source ECS
@@ -71,10 +69,14 @@ find_package(Threads REQUIRED)
 # Création de l'exécutable client
 add_executable(${CLIENT_BINARY} ${CLIENT_SOURCES})
 
+# Lien des bibliothèques pour le client
 target_link_libraries(${CLIENT_BINARY}
     PRIVATE
     Threads::Threads
-    ${SFML_LIBRARIES}
+    sfml-graphics
+    sfml-window
+    sfml-system
+    sfml-audio
     Boost::asio
     Boost::system
     Boost::filesystem
@@ -100,25 +102,23 @@ target_link_libraries(${SERVER_BINARY}
 target_include_directories(${CLIENT_BINARY} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/
-    ${SFML_INCLUDE_DIR}
+    ${SFML_INCLUDE_DIR}  # Ajoute le chemin d'inclusion de SFML
 )
 
 # Répertoires d'inclusion pour le serveur
 target_include_directories(${SERVER_BINARY} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/
     ${CMAKE_CURRENT_SOURCE_DIR}/Game_Play/
-    ${SFML_INCLUDE_DIR}
+    ${SFML_INCLUDE_DIR}  # Ajoute le chemin d'inclusion de SFML
 )
 
 # Gestion multiplateforme pour les commandes personnalisées
 if (WIN32)
-    # Spécificités Windows (par exemple, pour le système de fichiers)
     add_custom_command(TARGET ${CLIENT_BINARY} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${CLIENT_BINARY}>/assets
     )
 elseif (UNIX)
-    # Spécificités Linux
     add_custom_command(TARGET ${CLIENT_BINARY} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${CLIENT_BINARY}>/assets
