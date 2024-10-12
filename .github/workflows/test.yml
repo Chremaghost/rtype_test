@@ -31,7 +31,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential cmake git libudev-dev autoconf automake libtool \
-          libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev
+          libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
+      libvorbis-dev libogg-dev
 
     - name: Configure CMake with CPM
       run: |
