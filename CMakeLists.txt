@@ -100,12 +100,14 @@ target_link_libraries(${SERVER_BINARY}
 target_include_directories(${CLIENT_BINARY} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/
+    ${SFML_INCLUDE_DIR}
 )
 
 # Répertoires d'inclusion pour le serveur
 target_include_directories(${SERVER_BINARY} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/
     ${CMAKE_CURRENT_SOURCE_DIR}/Game_Play/
+    ${SFML_INCLUDE_DIR}
 )
 
 # Gestion multiplateforme pour les commandes personnalisées
