@@ -36,7 +36,7 @@ jobs:
       run: |
         pip install conan
 
-    - name: Create default Conan profile
+    - name: Create or update default Conan profile
       run: |
         conan profile detect
         echo "tools.system.package_manager:mode=install" >> ~/.conan2/profiles/default
