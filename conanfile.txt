@@ -5,7 +5,3 @@ sfml/2.5.1
 [generators]
 cmake_find_package
 cmake_paths
-
-[options]
-boost:shared=False  # Indique que Boost doit être compilé en statique
-sfml:audio=True     # Indique que l'audio de SFML est inclus
