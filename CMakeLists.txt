@@ -8,14 +8,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CLIENT_BINARY "rtype-client")
 set(SERVER_BINARY "rtype-server")
 
-# Intégration de Conan
-include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
+# Include vcpkg toolchain
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 
-# Appel à Conan pour résoudre les dépendances
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-
-# Déclaration des bibliothèques à lier
+# Declaration des bibliothèques à lier
 set(BOOST_LIBRARIES asio system filesystem thread)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
@@ -56,6 +52,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
 )
 
 find_package(Threads REQUIRED)
+find_package(Boost REQUIRED COMPONENTS ${BOOST_LIBRARIES})
+find_package(SFML REQUIRED COMPONENTS graphics window system audio)
 
 # Création de l'exécutable client
 add_executable(${CLIENT_BINARY} ${CLIENT_SOURCES})
@@ -64,7 +62,13 @@ add_executable(${CLIENT_BINARY} ${CLIENT_SOURCES})
 target_link_libraries(${CLIENT_BINARY}
     PRIVATE
     Threads::Threads
-    sfml-graphics sfml-window sfml-system sfml-audio
+    Boost::system
+    Boost::filesystem
+    Boost::asio
+    sfml-graphics
+    sfml-window
+    sfml-system
+    sfml-audio
 )
 
 # Création de l'exécutable serveur
@@ -74,14 +78,9 @@ add_executable(${SERVER_BINARY} ${SERVER_SOURCES})
 target_link_libraries(${SERVER_BINARY}
     PRIVATE
     Threads::Threads
-    sfml-graphics sfml-window sfml-system
+    Boost::system
+    Boost::filesystem
 )
-
-# Lien des bibliothèques Boost
-foreach(lib ${BOOST_LIBRARIES})
-    target_link_libraries(${CLIENT_BINARY} PRIVATE Boost::${lib})
-    target_link_libraries(${SERVER_BINARY} PRIVATE Boost::${lib})
-endforeach()
 
 # Répertoires d'inclusion pour le client
 target_include_directories(${CLIENT_BINARY} PRIVATE
@@ -96,16 +95,7 @@ target_include_directories(${SERVER_BINARY} PRIVATE
 )
 
 # Gestion multiplateforme pour les commandes personnalisées
-if (WIN32)
-    # Spécificités Windows (par exemple, pour le système de fichiers)
-    add_custom_command(TARGET ${CLIENT_BINARY} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${CLIENT_BINARY}>/assets
-    )
-elseif (UNIX)
-    # Spécificités Linux
-    add_custom_command(TARGET ${CLIENT_BINARY} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${CLIENT_BINARY}>/assets
-    )
-endif()
+add_custom_command(TARGET ${CLIENT_BINARY} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${CLIENT_BINARY}>/assets
+)
