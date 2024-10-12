@@ -26,6 +26,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install required system packages on Ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake git libudev-dev autoconf automake libtool
+
     - name: Install vcpkg on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
