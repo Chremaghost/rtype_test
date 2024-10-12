@@ -1,0 +1,2 @@
+/usr/bin/ar qc libengine.a CMakeFiles/engine.dir/ECS/Entity.cpp.o CMakeFiles/engine.dir/ECS/Component.cpp.o CMakeFiles/engine.dir/ECS/TransformComponent.cpp.o CMakeFiles/engine.dir/ECS/PhysicsComponent.cpp.o CMakeFiles/engine.dir/ECS/InputComponent.cpp.o CMakeFiles/engine.dir/rendering/RenderComponent.cpp.o CMakeFiles/engine.dir/rendering/RenderSystem.cpp.o CMakeFiles/engine.dir/physics/PhysicsSystem.cpp.o CMakeFiles/engine.dir/input/InputSystem.cpp.o
+/usr/bin/ranlib libengine.a

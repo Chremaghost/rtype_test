@@ -1,0 +1,19 @@
+Clients commands:
+Destroying bombs -> des
+Launching bombs -> launch
+Move ship left -> mvl
+Move ship right -> mvr
+Move ship up -> mvu
+Move ship down -> mvd
+ 
+Server requests:
+des -> 456
+launch -> 250
+mvl -> 230
+mvr -> 210
+mvu -> 240
+mvd -> 280
+
+Tâches de Roy:
+Sérialisation et désérialisation des données (paquets)
+Construction des paquets de transmission des données

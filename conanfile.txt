@@ -1,0 +1,12 @@
+[requires]
+boost/1.82.0
+qt/5.15.2
+portaudio/19.7.0
+
+[generators]
+cmake
+cmake_find_package
+
+[options]
+qt:shared=True
+boost:header_only=False

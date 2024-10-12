@@ -1,0 +1,48 @@
+Voici une version améliorée de vos fichiers `prebuild.bat` et `make.bat`, avec des ajouts concernant la méthode de compilation :
+
+### `prebuild.bat`
+
+Ce script s'occupe d'installer les dépendances nécessaires avant la compilation, tout en utilisant la méthode de compilation appropriée. J'ai ajouté des commentaires pour indiquer les étapes clés.
+
+### `make.bat`
+
+Ce fichier s'occupe de la compilation proprement dite après l'exécution des étapes de préparation. J'ai également ajouté des commentaires et des vérifications supplémentaires.
+
+Pour lancer vos scripts de compilation (`prebuild.bat` et `make.bat`) afin de préparer votre environnement et de compiler votre projet, voici les étapes à suivre :
+
+### Étapes pour exécuter les scripts
+
+1. **Ouvrir l'invite de commandes Windows** :
+   - Appuyez sur `Windows + R`, tapez `cmd`, puis appuyez sur `Entrée`.
+
+2. **Naviguer vers le répertoire du projet** :
+   - Utilisez la commande `cd` (change directory) pour aller dans le dossier où se trouvent vos scripts. Par exemple, si vos scripts sont dans `C:\Users\HP\Documents\B-CPP-500-COT-5-1-rtype-yann-meric.sossou`, tapez :
+     cd C:\Users\HP\Documents\B-CPP-500-COT-5-1-rtype-yann-meric.sossou
+
+3. **Exécuter le script `prebuild.bat`** :
+   - Cela va détecter et installer les dépendances nécessaires (CMake, Conan, Boost, etc.) :
+     prebuild.bat
+   - Suivez les instructions à l'écran pour l'installation. Si tout se passe bien, vous devriez voir un message indiquant que Conan est configuré.
+
+4. **Exécuter le script `make.bat`** :
+   - Une fois que `prebuild.bat` a terminé, lancez le script de compilation :
+     make.bat
+   - Ce script va nettoyer les anciens fichiers de build, créer un nouveau dossier de build, exécuter CMake pour générer les fichiers de projet, installer les dépendances avec Conan, et compiler le projet.
+
+### Résumé des commandes
+
+Voici un résumé des commandes que vous devez entrer dans l'invite de commandes :
+
+cd C:\Users\HP\Documents\B-CPP-500-COT-5-1-rtype-yann-meric.sossou
+prebuild.bat
+make.bat
+
+### Vérification
+
+- **Vérifiez les messages** : Assurez-vous de lire les messages affichés dans la console. Si des erreurs se produisent, elles seront indiquées, et vous pourrez ainsi les résoudre.
+- **Compilation réussie** : À la fin de l'exécution du script `make.bat`, vous devriez voir "Build complete!" s'afficher, indiquant que le processus de compilation a réussi.
+
+### Points à garder à l'esprit
+
+- **Droits d'administrateur** : Selon votre configuration système, vous pourriez avoir besoin d'exécuter l'invite de commandes en tant qu'administrateur, surtout si vous installez des paquets. Cliquez avec le bouton droit sur l'icône de l'invite de commandes et choisissez "Exécuter en tant qu'administrateur".
+- **Dépendances** : Assurez-vous que toutes les dépendances sont correctement installées et configurées pour éviter des problèmes de compilation.
