@@ -46,13 +46,18 @@ jobs:
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
         choco install openal boost-msvc14.1 sfml
 
-    # Configuration CMake avec CPM
-    - name: Configure CMake with CPM
+    # Configuration CMake avec CPM sur Windows
+    - name: Configure CMake with CPM on Windows
+      if: matrix.os == 'windows-latest'
+      shell: cmd
       run: |
-        # Pour Windows, exécuter vcvarsall.bat pour configurer l'environnement
-        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-          call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-        fi
+        "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+        cmake -B build -DCMAKE_CXX_COMPILER=cl -S .
+
+    # Configuration CMake avec CPM sur Ubuntu
+    - name: Configure CMake with CPM on Ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: |
         cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S .
 
     # Compilation du projet
