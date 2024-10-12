@@ -36,31 +36,22 @@ jobs:
 
     - name: Setup Visual Studio
       if: matrix.os == 'windows-latest'
-      uses: microsoft/setup-msbuild@v1.0.3
-      with:
-        vs-version: 'latest'
+      run: |
+        choco install visualstudio2022community --package-parameters "--includeOptional --quiet"
+        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 
-    - name: Setup Visual Studio Environment
+    - name: Configure CMake with CPM
       if: matrix.os == 'windows-latest'
       run: |
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-
-    - name: Print PATH
-      if: matrix.os == 'windows-latest'
-      run: |
-        echo $PATH
+        call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+        cmake -B build \
+        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
+        -S .
 
     - name: Install required packages on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
         choco install openal boost-msvc14.1 sfml
-
-    - name: Configure CMake with CPM
-      run: |
-        cmake -B build \
-        -DCMAKE_CXX_COMPILER="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\<version>\bin\Hostx64\x64\cl.exe" \
-        -S .
 
     - name: Build rtype
       run: cmake --build build
