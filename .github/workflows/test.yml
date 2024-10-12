@@ -38,7 +38,7 @@ jobs:
 
     - name: Clear Conan cache
       run: |
-        conan remove "*" -f  # Utiliser sans format ou spécifier un format
+        conan remove "*" -f  default
 
     - name: Create or update default Conan profile
       run: |
