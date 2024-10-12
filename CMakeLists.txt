@@ -21,12 +21,13 @@ CPMAddPackage(
 CPMAddPackage(
     NAME SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG master
+    GIT_TAG 2.5.1
 )
 
 # Vérifiez que les dépendances sont trouvées
 find_package(Boost REQUIRED COMPONENTS asio system filesystem thread)
 find_package(SFML REQUIRED COMPONENTS graphics window system audio)
+message(STATUS "SFML libraries: ${SFML_LIBRARIES}")
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
 
@@ -70,14 +71,10 @@ find_package(Threads REQUIRED)
 # Création de l'exécutable client
 add_executable(${CLIENT_BINARY} ${CLIENT_SOURCES})
 
-# Lien des bibliothèques pour le client
 target_link_libraries(${CLIENT_BINARY}
     PRIVATE
     Threads::Threads
-    sfml-graphics
-    sfml-window
-    sfml-system
-    sfml-audio
+    ${SFML_LIBRARIES}
     Boost::asio
     Boost::system
     Boost::filesystem
