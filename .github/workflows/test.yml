@@ -44,6 +44,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+	mkdir build
         cmake -B build \
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
         -S .
