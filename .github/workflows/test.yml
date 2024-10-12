@@ -26,6 +26,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    # Installation des paquets requis sur Ubuntu
     - name: Install required system packages on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -34,29 +35,37 @@ jobs:
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
           libvorbis-dev libogg-dev libflac-dev libopenal-dev
 
+    # Configuration de Visual Studio sur Windows
     - name: Setup Visual Studio
       if: matrix.os == 'windows-latest'
       run: |
         choco install visualstudio2022community --package-parameters "--includeOptional --quiet"
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 
-    - name: Configure CMake with CPM
+    # Configuration de CMake avec CPM sur Windows
+    - name: Configure CMake with CPM on Windows
       if: matrix.os == 'windows-latest'
       run: |
         call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-	mkdir build
-        cmake -B build \
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
-        -S .
+        cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S .
 
+    # Installation des dépendances sur Windows
     - name: Install required packages on Windows
       if: matrix.os == 'windows-latest'
       run: |
         choco install openal boost-msvc14.1 sfml
 
+    # Configuration de CMake sur Ubuntu
+    - name: Configure CMake with CPM on Ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S .
+
+    # Compilation du projet
     - name: Build rtype
       run: cmake --build build
 
+    # Tests
     - name: Test rtype
       working-directory: ./build
       run: ctest --verbose
