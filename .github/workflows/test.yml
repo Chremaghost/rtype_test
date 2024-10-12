@@ -39,6 +39,9 @@ jobs:
       run: |
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
         choco install openal boost-msvc14.1 sfml
+        # Configuration de l'environnement pour Visual Studio
+        choco install visualstudio2019community --params "'/NoRestart /IncludeRecommended'"
+        call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 
     - name: Configure CMake with CPM
       run: |
