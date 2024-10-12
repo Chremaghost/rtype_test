@@ -30,11 +30,18 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential cmake git libudev-dev || (echo "Failed to install system packages" && exit 1)
+        sudo apt-get install -y build-essential cmake git libudev-dev
 
-    - name: Install Conan
+    - name: Install pipx
+      if: matrix.os == 'ubuntu-latest'
       run: |
-        pip install conan
+        python3 -m pip install --user pipx
+        python3 -m pipx ensurepath
+
+    - name: Install Conan with pipx
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        pipx install conan
 
     - name: Create or update default Conan profile
       run: |
