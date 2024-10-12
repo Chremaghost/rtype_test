@@ -43,7 +43,7 @@ jobs:
     - name: Install dependencies on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
-        conan install . --build=missing
+        conan install . --build=missing -c tools.system.package_manager:mode=install
 
     - name: Install dependencies on Windows
       if: matrix.os == 'windows-latest'
