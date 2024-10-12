@@ -32,7 +32,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential cmake git libudev-dev autoconf automake libtool \
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
-          libvorbis-dev libogg-dev libflac-dev  # Ajout de libflac-dev
+          libvorbis-dev libogg-dev libflac-dev libopenal-dev  # Ajout de libopenal-dev
 
     - name: Install required packages on Windows
       if: matrix.os == 'windows-latest'
