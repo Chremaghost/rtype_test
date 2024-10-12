@@ -26,12 +26,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: List directory contents
-      run: ls -la
-
     - name: Install Conan
       run: |
         pip install conan
+
+    - name: Create default Conan profile
+      run: |
+        conan profile detect
 
     - name: Install dependencies on Ubuntu
       if: matrix.os == 'ubuntu-latest'
