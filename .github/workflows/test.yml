@@ -39,17 +39,11 @@ jobs:
       run: |
         choco install visualstudio2022community --package-parameters "--includeOptional --quiet"
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-        
-        # Check if the vcvarsall.bat exists and set the path
-        if (Test-Path "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat") {
-          & "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-        } else {
-          Write-Error "vcvarsall.bat not found. Ensure Visual Studio is installed correctly."
-          exit 1
-        }
 
     - name: Configure CMake with CPM
+      if: matrix.os == 'windows-latest'
       run: |
+        call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
         cmake -B build \
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
         -S .
@@ -58,6 +52,13 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         choco install openal boost-msvc14.1 sfml
+
+    - name: Configure CMake with CPM
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        cmake -B build \
+        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
+        -S .
 
     - name: Build rtype
       run: cmake --build build

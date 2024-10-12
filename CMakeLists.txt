@@ -8,10 +8,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CLIENT_BINARY "rtype-client")
 set(SERVER_BINARY "rtype-server")
 
-# Intégration de CPM
+# Integration of CPM
 include(cmake/CPM.cmake)
 
-# Ajout de dépendances avec CPM
+# Adding dependencies with CPM
 CPMAddPackage(
     NAME Boost
     GIT_REPOSITORY https://github.com/boostorg/boost.git
@@ -24,19 +24,19 @@ CPMAddPackage(
     GIT_TAG 2.5.1
 )
 
-# Vérifiez que les dépendances sont trouvées
+# Check that dependencies are found
 find_package(Boost REQUIRED COMPONENTS asio system filesystem thread)
 find_package(SFML REQUIRED COMPONENTS graphics window system audio)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
 
-# Fichiers source réseau
+# Network source files
 set(NETWORK_SOURCES
     src/client/ClientNetworkManager.cpp
     src/server/ServerNetworkManager.cpp
 )
 
-# Fichiers source ECS
+# ECS source files
 file(GLOB ECS_SOURCES
     src/engine/ECS/*.cpp
     src/engine/input/*.cpp
@@ -51,25 +51,25 @@ file(GLOB ECS_SOURCES
 )
 
 if(NOT ECS_SOURCES)
-    message(FATAL_ERROR "Aucun fichier source trouvé dans src/engine/ECS/")
+    message(FATAL_ERROR "No source files found in src/engine/ECS/")
 endif()
 
-# Fichiers sources du client
+# Client source files
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     src/main_client.cpp
 )
 
-# Fichiers sources du serveur
+# Server source files
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     src/main_server.cpp
 )
 
 find_package(Threads REQUIRED)
 
-# Création de l'exécutable client
+# Create client executable
 add_executable(${CLIENT_BINARY} ${CLIENT_SOURCES})
 
-# Lien des bibliothèques pour le client
+# Link libraries for client
 target_link_libraries(${CLIENT_BINARY}
     PRIVATE
     Threads::Threads
@@ -83,10 +83,10 @@ target_link_libraries(${CLIENT_BINARY}
     Boost::thread
 )
 
-# Création de l'exécutable serveur
+# Create server executable
 add_executable(${SERVER_BINARY} ${SERVER_SOURCES})
 
-# Lien des bibliothèques pour le serveur
+# Link libraries for server
 target_link_libraries(${SERVER_BINARY}
     PRIVATE
     Threads::Threads
@@ -98,22 +98,34 @@ target_link_libraries(${SERVER_BINARY}
     Boost::filesystem
 )
 
-# Répertoires d'inclusion pour le client
+# Include directories for client
 target_include_directories(${CLIENT_BINARY} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/
-    ${SFML_INCLUDE_DIR}  # Ajoute le chemin d'inclusion de SFML
+    ${SFML_INCLUDE_DIR}  # Include path for SFML
 )
 
-# Répertoires d'inclusion pour le serveur
+# Include directories for server
 target_include_directories(${SERVER_BINARY} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/
     ${CMAKE_CURRENT_SOURCE_DIR}/Game_Play/
-    ${SFML_INCLUDE_DIR}  # Ajoute le chemin d'inclusion de SFML
+    ${SFML_INCLUDE_DIR}  # Include path for SFML
 )
 
-# Gestion multiplateforme pour les commandes personnalisées
+# Platform-specific handling for custom commands
 if (WIN32)
+    # Attempt to find vcvarsall.bat
+    get_filename_component(MY_LINKER_DIR ${CMAKE_LINKER} DIRECTORY)
+    find_file(MY_VCVARSALL_BAT vcvarsall.bat
+        "${MY_LINKER_DIR}/.." "${MY_LINKER_DIR}/../..")
+
+    if(NOT MY_VCVARSALL_BAT)
+        message(FATAL_ERROR "vcvarsall.bat not found. Ensure Visual Studio is installed correctly.")
+    endif()
+
+    # Execute vcvarsall.bat to set up the environment
+    execute_process(COMMAND "${MY_VCVARSALL_BAT}" x64)
+
     add_custom_command(TARGET ${CLIENT_BINARY} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${CLIENT_BINARY}>/assets
