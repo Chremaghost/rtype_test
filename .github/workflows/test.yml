@@ -36,10 +36,6 @@ jobs:
       run: |
         pip install conan
 
-    - name: Clear Conan cache
-      run: |
-        conan remove "*" --force  # Supprime tous les paquets sans spécifier de format
-
     - name: Create or update default Conan profile
       run: |
         conan profile detect
