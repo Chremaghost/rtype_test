@@ -41,7 +41,7 @@ public:
     void update() {
         activeSounds.erase(std::remove_if(activeSounds.begin(), activeSounds.end(),
             [](const sf::Sound& sound) {
-                return sound.getStatus() == sf::Sound::Stopped;
+		return sound.getStatus() == sf::Sound::Status::Stopped; 
             }), activeSounds.end());
     }
 
