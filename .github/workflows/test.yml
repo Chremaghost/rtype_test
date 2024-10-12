@@ -38,8 +38,7 @@ jobs:
 
     - name: Create default Conan profile
       run: |
-        conan profile new default --detect
-        echo "[settings]" >> ~/.conan2/profiles/default
+        conan profile detect
         echo "tools.system.package_manager:mode=install" >> ~/.conan2/profiles/default
 
     - name: Install dependencies on Ubuntu
