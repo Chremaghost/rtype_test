@@ -32,16 +32,19 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential cmake git libudev-dev autoconf automake libtool \
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
-          libvorbis-dev libogg-dev libflac-dev libopenal-dev  # Ajout de libopenal-dev
+          libvorbis-dev libogg-dev libflac-dev libopenal-dev
 
+    - name: Setup Visual Studio
+      if: matrix.os == 'windows-latest'
+      uses: microsoft/setup-msbuild@v1.0.3
+      with:
+        vs-version: 'latest'  # Ou une version spécifique comme '2019' ou '2022'
+      
     - name: Install required packages on Windows
       if: matrix.os == 'windows-latest'
       run: |
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
         choco install openal boost-msvc14.1 sfml
-        # Configuration de l'environnement pour Visual Studio
-        choco install visualstudio2019community --params "'/NoRestart /IncludeRecommended'"
-        call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 
     - name: Configure CMake with CPM
       run: |
