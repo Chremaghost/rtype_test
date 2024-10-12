@@ -30,12 +30,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential cmake git libudev-dev
-
-    - name: Verify libudev-dev installation
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        dpkg-query -W -f='${Status}' libudev-dev | grep -q "ok installed" || (echo "libudev-dev is not installed" && exit 1)
+        sudo apt-get install -y build-essential cmake git libudev-dev || (echo "Failed to install system packages" && exit 1)
 
     - name: Install Conan
       run: |
@@ -55,7 +50,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-        conan install . --build=missing --profile=default
+        conan install . --build=missing --profile=default || (echo "Conan install failed on Windows" && exit 1)
 
     - name: Configure CMake
       run: |
