@@ -57,8 +57,13 @@ jobs:
       if: matrix.os == 'windows-latest'
       shell: pwsh
       run: |
-        & "$env:VCVARSALL_PATH" x64
-        cmake -B build -DCMAKE_CXX_COMPILER=g++ -S .
+        if (Test-Path $env:VCVARSALL_PATH) {
+          & "$env:VCVARSALL_PATH" x64  # Exécute vcvarsall.bat
+          cmake -B build -DCMAKE_CXX_COMPILER=g++ -S .  # Configure CMake
+        } else {
+          Write-Host "Error: vcvarsall.bat not found!"
+          exit 1
+        }
 
     - name: Install required packages on Windows
       if: matrix.os == 'windows-latest'
