@@ -28,7 +28,7 @@ CPMAddPackage(
 find_package(Boost REQUIRED COMPONENTS asio system filesystem thread)
 find_package(SFML REQUIRED COMPONENTS graphics window system audio)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -static-libgcc -static-libstdc++")
 
 # Network source files
 set(NETWORK_SOURCES
@@ -84,13 +84,11 @@ target_link_libraries(${CLIENT_BINARY}
     Boost::thread
 )
 
-
-
 # Create server executable
 add_executable(${SERVER_BINARY} ${SERVER_SOURCES})
 
 # Link libraries for server
-target_link_libraries(${CLIENT_BINARY}
+target_link_libraries(${SERVER_BINARY}
     PRIVATE
     Threads::Threads
     sfml-graphics
