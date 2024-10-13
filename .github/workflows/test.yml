@@ -36,18 +36,16 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         choco install msys2 --params "/NoUpdate"
-        refreshenv
 
-    - name: Update and install packages with pacman on Windows
+    - name: Use MSYS2 to update and install packages on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        C:/tools/msys64/usr/bin/bash -lc "pacman -Syu --noconfirm"
+        C:/tools/msys64/usr/bin/bash -lc "pacman -Syu --noconfirm && pacman -S --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-make"
 
     - name: Configure CMake with CPM on Windows
       if: matrix.os == 'windows-latest'
-      shell: pwsh
       run: |
-        cmake -B build -DCMAKE_CXX_COMPILER=g++ -S .
+        C:/tools/msys64/mingw64/bin/cmake.exe -B build -DCMAKE_CXX_COMPILER=g++ -S .
 
     - name: Configure CMake with CPM on Ubuntu
       if: matrix.os == 'ubuntu-latest'
