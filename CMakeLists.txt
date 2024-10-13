@@ -90,7 +90,7 @@ target_link_libraries(${CLIENT_BINARY}
 add_executable(${SERVER_BINARY} ${SERVER_SOURCES})
 
 # Link libraries for server
-target_link_libraries(${SERVER_BINARY}
+target_link_libraries(${CLIENT_BINARY}
     PRIVATE
     Threads::Threads
     sfml-graphics
