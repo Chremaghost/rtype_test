@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
       matrix:
@@ -32,23 +31,20 @@ jobs:
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
           libvorbis-dev libogg-dev libflac-dev libopenal-dev
 
-    - name: Setup MSYS2 on Windows
+    - name: Install MSYS2 and configure on Windows
+      if: matrix.os == 'windows-latest'
+      shell: pwsh
+      run: |
+        choco install msys2 --no-progress -y
+        C:\tools\msys64\usr\bin\bash.exe -lc "pacman -Syu --noconfirm"
+        C:\tools\msys64\usr\bin\bash.exe -lc "pacman -S --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake"
+
+    - name: Configure CMake with g++ on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        choco install msys2 --params "/NoUpdate"
-        RefreshEnv.cmd
+        C:\tools\msys64\mingw64\bin\cmake.exe -B build -DCMAKE_CXX_COMPILER=g++ -S .
 
-    - name: Install required packages with pacman
-      if: matrix.os == 'windows-latest'
-      run: |
-        C:/tools/msys64/usr/bin/bash -lc "pacman -Sy --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-make"
-
-    - name: Configure CMake with CPM on Windows
-      if: matrix.os == 'windows-latest'
-      run: |
-        C:/tools/msys64/mingw64/bin/cmake.exe -B build -G "Unix Makefiles" -DCMAKE_CXX_COMPILER=g++ -S .
-
-    - name: Configure CMake with CPM on Ubuntu
+    - name: Configure CMake with g++ on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
         cmake -B build -DCMAKE_CXX_COMPILER=g++ -S .
