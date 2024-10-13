@@ -40,15 +40,16 @@ jobs:
         choco install cmake --version=3.25.1 --installargs 'ADD_CMAKE_TO_PATH=System'
         Start-Sleep -Seconds 30  # Pause pour laisser le temps à l'installation de s'achever
 
-    - name: Check for vcvarsall.bat location
+    - name: Find vcvarsall.bat dynamically
       if: matrix.os == 'windows-latest'
       shell: pwsh
       run: |
-        $vcvarsallPath = "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat"
-        if (Test-Path $vcvarsallPath) {
-          Write-Host "vcvarsall.bat found at: $vcvarsallPath"
+        $vcvarsallPath = Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio\" -Recurse -Filter "vcvarsall.bat" -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($vcvarsallPath) {
+          Write-Host "vcvarsall.bat found at: $($vcvarsallPath.FullName)"
+          $env:VCVARSALL_PATH = $vcvarsallPath.FullName  # Set the environment variable for later use
         } else {
-          Write-Host "Error: vcvarsall.bat not found at expected location!"
+          Write-Host "Error: vcvarsall.bat not found in common Visual Studio directories!"
           exit 1
         }
 
@@ -56,7 +57,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       shell: pwsh
       run: |
-        & "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" x64
+        & "$env:VCVARSALL_PATH" x64
         cmake -B build -DCMAKE_CXX_COMPILER=g++ -S .
 
     - name: Install required packages on Windows
