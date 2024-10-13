@@ -55,14 +55,10 @@ if(NOT ECS_SOURCES)
 endif()
 
 # Client source files
-set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
-    src/main_client.cpp
-)
+set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES} src/main_client.cpp)
 
 # Server source files
-set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
-    src/main_server.cpp
-)
+set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES} src/main_server.cpp)
 
 find_package(Threads REQUIRED)
 
