@@ -14,10 +14,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        cpp_compiler: [g++, clang++]
+        cpp_compiler: [g++, clang++, cl, clang++]
         include:
           - os: windows-latest
             cpp_compiler: cl
+          - os: windows-latest
+            cpp_compiler: clang++
           - os: ubuntu-latest
             cpp_compiler: g++
           - os: ubuntu-latest
@@ -43,7 +45,7 @@ jobs:
     - name: Configure CMake with CPM on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        cmd.exe /c "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat x64 && cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S ."
+        cmd.exe /c ""C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" x64 && cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S ."
 
     - name: Install required packages on Windows
       if: matrix.os == 'windows-latest'
