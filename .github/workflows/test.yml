@@ -58,7 +58,11 @@ jobs:
           Write-Host "Attempting to run: '$($vcvarsallPath.FullName) x64'"
           Start-Process -FilePath "$($vcvarsallPath.FullName)" -ArgumentList 'x64' -NoNewWindow -Wait
           Start-Sleep -Seconds 5  # Attendre un moment après l'exécution
-          
+
+          # Vérifiez les variables d'environnement pour s'assurer qu'elles sont définies
+          Write-Host "Verifying environment variables:"
+          Get-ChildItem Env: | Where-Object { $_.Name -like "VS*" }
+
           # Configurer CMake directement après avoir exécuté vcvarsall.bat
           cmake -B build -G 'Visual Studio 17 2022' -DCMAKE_CXX_COMPILER=g++ -S .
         } else {
