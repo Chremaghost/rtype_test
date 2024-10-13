@@ -66,8 +66,9 @@ jobs:
       shell: pwsh
       run: |
         if ($env:VCVARSALL_PATH) {
+          Write-Host "VCVARSALL_PATH: $env:VCVARSALL_PATH"
           Write-Host "Attempting to run: '$($env:VCVARSALL_PATH) x64'"
-          cmd.exe /c "& `"$($env:VCVARSALL_PATH)`" x64"
+          Start-Process -FilePath "$env:VCVARSALL_PATH" -ArgumentList 'x64' -NoNewWindow -Wait
           Start-Sleep -Seconds 5  # Attendre un moment après l'exécution
           cmake -B build -G 'Visual Studio 16 2019' -DCMAKE_CXX_COMPILER=g++ -S .
         } else {
