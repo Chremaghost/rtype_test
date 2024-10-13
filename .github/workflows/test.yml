@@ -32,15 +32,15 @@ jobs:
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
           libvorbis-dev libogg-dev libflac-dev libopenal-dev
 
-    - name: Install MSYS2 on Windows
+    - name: Install MSYS2 on Windows without update
       if: matrix.os == 'windows-latest'
       run: |
         choco install msys2 --params "/NoUpdate"
 
-    - name: Use MSYS2 to update and install packages on Windows
+    - name: Install required packages with pacman
       if: matrix.os == 'windows-latest'
       run: |
-        C:/tools/msys64/usr/bin/bash -lc "pacman -Syu --noconfirm && pacman -S --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-make"
+        C:/tools/msys64/usr/bin/bash -lc "pacman -Sy --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-make"
 
     - name: Configure CMake with CPM on Windows
       if: matrix.os == 'windows-latest'
