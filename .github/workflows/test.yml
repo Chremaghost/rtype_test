@@ -38,13 +38,21 @@ jobs:
       run: |
         choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --quiet --includeRecommended"
         choco install cmake --version=3.25.1 --installargs 'ADD_CMAKE_TO_PATH=System'
-        Start-Sleep -Seconds 30  # Pause pour laisser le temps à l'installation de s'achever
+        Start-Sleep -Seconds 60  # Augmenter le temps pour l'installation
 
     - name: Find vcvarsall.bat dynamically
       if: matrix.os == 'windows-latest'
       shell: pwsh
       run: |
-        $vcvarsallPath = Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio\" -Recurse -Filter "vcvarsall.bat" -ErrorAction SilentlyContinue | Select-Object -First 1
+        $paths = @(
+          "C:\Program Files (x86)\Microsoft Visual Studio\",
+          "C:\Program Files\Microsoft Visual Studio\"
+        )
+        $vcvarsallPath = $null
+        foreach ($path in $paths) {
+          $vcvarsallPath = Get-ChildItem -Path $path -Recurse -Filter "vcvarsall.bat" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($vcvarsallPath) { break }
+        }
         if ($vcvarsallPath) {
           Write-Host "vcvarsall.bat found at: $($vcvarsallPath.FullName)"
           $env:VCVARSALL_PATH = $vcvarsallPath.FullName
@@ -59,7 +67,7 @@ jobs:
       run: |
         if ($env:VCVARSALL_PATH) {
           Write-Host "Attempting to run: '$($env:VCVARSALL_PATH) x64'"
-          cmd.exe /c "& `"$env:VCVARSALL_PATH`" x64 && cmake -B build -DCMAKE_CXX_COMPILER=g++ -S ."
+          cmd.exe /c "& `"$env:VCVARSALL_PATH`" x64 && cmake -B build -G 'Visual Studio 16 2019' -DCMAKE_CXX_COMPILER=g++ -S ."
         } else {
           Write-Host "Error: vcvarsall.bat not found!"
           exit 1
