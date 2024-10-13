@@ -21,7 +21,7 @@ CPMAddPackage(
 CPMAddPackage(
     NAME SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.5.1
+    GIT_TAG master
 )
 
 # Check that dependencies are found
