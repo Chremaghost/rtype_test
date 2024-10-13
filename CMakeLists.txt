@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(RType LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)  # or 14
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -21,15 +21,15 @@ CPMAddPackage(
 CPMAddPackage(
     NAME SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.5.1
+    GIT_TAG master  # or a specific version for SFML 3
 )
 
 # Check that dependencies are found
 find_package(Boost REQUIRED COMPONENTS asio system filesystem thread)
 find_package(SFML REQUIRED COMPONENTS graphics window system audio)
 
-# Set compiler flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -static-libgcc -static-libstdc++ -D_MSC_VER=1911 -D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS")
+# Set compiler flags (consider simplifying)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3")
 
 # Network source files
 set(NETWORK_SOURCES
@@ -63,63 +63,27 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES} src/main_server.cpp)
 
 find_package(Threads REQUIRED)
 
-# Create client executable
+# Create client and server executables
 add_executable(${CLIENT_BINARY} ${CLIENT_SOURCES})
-
-# Link libraries for client
-target_link_libraries(${CLIENT_BINARY}
-    PRIVATE
-    Threads::Threads
-    sfml-graphics
-    sfml-window
-    sfml-system
-    sfml-audio
-    -lFLAC
-    -logg
-    -lvorbis
-    -lvorbisfile
-    -lfreetype
-    -Wl,--enable-auto-import
-    Boost::asio
-    Boost::system
-    Boost::filesystem
-    Boost::thread
-)
-
-# Create server executable
 add_executable(${SERVER_BINARY} ${SERVER_SOURCES})
 
-# Link libraries for server
+# Link libraries
+target_link_libraries(${CLIENT_BINARY}
+    PRIVATE Threads::Threads
+    sfml-graphics sfml-window sfml-system sfml-audio
+    Boost::asio Boost::system Boost::filesystem Boost::thread
+)
+
 target_link_libraries(${SERVER_BINARY}
-    PRIVATE
-    Threads::Threads
-    sfml-graphics
-    sfml-window
-    sfml-system
-    sfml-audio
-    -lFLAC
-    -logg
-    -lvorbis
-    -lvorbisfile
-    -lfreetype
-    Boost::asio
-    Boost::system
-    Boost::filesystem
-    Boost::thread
+    PRIVATE Threads::Threads
+    sfml-graphics sfml-window sfml-system sfml-audio
+    Boost::asio Boost::system Boost::filesystem Boost::thread
 )
 
-# Include directories for client and server
-target_include_directories(${CLIENT_BINARY} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/
-    ${SFML_INCLUDE_DIR}  # Include path for SFML
-)
+# Include directories
+target_include_directories(${CLIENT_BINARY} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/)
+target_include_directories(${SERVER_BINARY} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/)
 
-target_include_directories(${SERVER_BINARY} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/
-    ${CMAKE_CURRENT_SOURCE_DIR}/Game_Play/
-    ${SFML_INCLUDE_DIR}  # Include path for SFML
-)
 
 # Platform-specific handling for custom commands
 if (WIN32)
