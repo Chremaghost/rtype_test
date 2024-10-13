@@ -78,6 +78,7 @@ target_link_libraries(${CLIENT_BINARY}
     -lvorbis
     -lvorbisfile
     -lfreetype
+    -Wl,--enable-auto-import
     Boost::asio
     Boost::system
     Boost::filesystem
