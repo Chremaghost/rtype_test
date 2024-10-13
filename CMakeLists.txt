@@ -29,7 +29,7 @@ find_package(Boost REQUIRED COMPONENTS asio system filesystem thread)
 find_package(SFML REQUIRED COMPONENTS graphics window system audio)
 
 # Set compiler flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -static-libgcc -static-libstdc++ -D_MSC_VER=1911")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -static-libgcc -static-libstdc++ -D_MSC_VER=1911 -D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS")
 
 # Network source files
 set(NETWORK_SOURCES
@@ -79,6 +79,7 @@ target_link_libraries(${CLIENT_BINARY}
     -lvorbis
     -lvorbisfile
     -lfreetype
+    -Wl,--enable-auto-import
     Boost::asio
     Boost::system
     Boost::filesystem
