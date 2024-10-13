@@ -47,7 +47,7 @@ jobs:
         $vcvarsallPath = Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio\" -Recurse -Filter "vcvarsall.bat" -ErrorAction SilentlyContinue | Select-Object -First 1
         if ($vcvarsallPath) {
           Write-Host "vcvarsall.bat found at: $($vcvarsallPath.FullName)"
-          $env:VCVARSALL_PATH = $vcvarsallPath.FullName  # Set the environment variable for later use
+          $env:VCVARSALL_PATH = $vcvarsallPath.FullName
         } else {
           Write-Host "Error: vcvarsall.bat not found in common Visual Studio directories!"
           exit 1
@@ -59,7 +59,6 @@ jobs:
       run: |
         if ($env:VCVARSALL_PATH) {
           Write-Host "Attempting to run: '$($env:VCVARSALL_PATH) x64'"
-          # Utilisation de cmd.exe pour exécuter la commande avec le bon contexte
           cmd.exe /c ""$env:VCVARSALL_PATH" x64 && cmake -B build -DCMAKE_CXX_COMPILER=g++ -S ."
         } else {
           Write-Host "Error: vcvarsall.bat not found!"
