@@ -37,20 +37,20 @@ jobs:
       run: |
         choco install msys2 --no-progress -y
         C:\tools\msys64\usr\bin\bash.exe -lc "pacman -Syu --noconfirm"
-        C:\tools\msys64\usr\bin\bash.exe -lc "pacman -S --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake"
+        C:\tools\msys64\usr\bin\bash.exe -lc "pacman -S --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake make"
 
     - name: Configure CMake with g++ on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        C:\tools\msys64\mingw64\bin\cmake.exe -B build -DCMAKE_CXX_COMPILER=g++ -S .
+        C:\tools\msys64\mingw64\bin\cmake.exe -B build -DCMAKE_CXX_COMPILER=g++ -G "Unix Makefiles" -S .
 
     - name: Configure CMake with g++ on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
-        cmake -B build -DCMAKE_CXX_COMPILER=g++ -S .
+        cmake -B build -DCMAKE_CXX_COMPILER=g++ -G "Unix Makefiles" -S .
 
     - name: Build rtype
-      run: cmake --build build
+      run: make -C build
 
     - name: Test rtype
       working-directory: ./build
