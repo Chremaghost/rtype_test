@@ -42,12 +42,12 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --quiet --includeRecommended"
-	choco install cmake --version=3.25.1 --installargs 'ADD_CMAKE_TO_PATH=System'
+        choco install cmake --version=3.25.1 --installargs 'ADD_CMAKE_TO_PATH=System'
 
     - name: Configure CMake with CPM on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        cmd.exe /c ""\"C:/Program Files/Microsoft Visual Studio/2022/BuildTools/VC/Auxiliary/Build/vcvarsall.bat\" x64 && cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S ."""
+        cmd.exe /c "C:/Program Files/Microsoft Visual Studio/2022/BuildTools/VC/Auxiliary/Build/vcvarsall.bat x64 && cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S ."
 
     - name: Install required packages on Windows
       if: matrix.os == 'windows-latest'
