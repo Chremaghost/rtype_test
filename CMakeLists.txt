@@ -8,8 +8,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CLIENT_BINARY "rtype-client")
 set(SERVER_BINARY "rtype-server")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_MSC_VER=1911")
-
 # Integration of CPM
 include(cmake/CPM.cmake)
 
@@ -30,7 +28,8 @@ CPMAddPackage(
 find_package(Boost REQUIRED COMPONENTS asio system filesystem thread)
 find_package(SFML REQUIRED COMPONENTS graphics window system audio)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -static-libgcc -static-libstdc++")
+# Set compiler flags
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -static-libgcc -static-libstdc++ -D_MSC_VER=1911")
 
 # Network source files
 set(NETWORK_SOURCES
@@ -68,7 +67,6 @@ find_package(Threads REQUIRED)
 add_executable(${CLIENT_BINARY} ${CLIENT_SOURCES})
 
 # Link libraries for client
-if (WIN32)
 target_link_libraries(${CLIENT_BINARY}
     PRIVATE
     Threads::Threads
@@ -81,32 +79,11 @@ target_link_libraries(${CLIENT_BINARY}
     -lvorbis
     -lvorbisfile
     -lfreetype
-    -Wl,--enable-auto-import
     Boost::asio
     Boost::system
     Boost::filesystem
     Boost::thread
 )
-elseif (UNIX)
-target_link_libraries(${CLIENT_BINARY}
-    PRIVATE
-    Threads::Threads
-    sfml-graphics
-    sfml-window
-    sfml-system
-    sfml-audio
-    -lFLAC
-    -logg
-    -lvorbis
-    -lvorbisfile
-    -lfreetype
-    -Wl,--enable-auto-import
-    Boost::asio
-    Boost::system
-    Boost::filesystem
-    Boost::thread
-)
-endif()
 
 # Create server executable
 add_executable(${SERVER_BINARY} ${SERVER_SOURCES})
@@ -130,14 +107,13 @@ target_link_libraries(${SERVER_BINARY}
     Boost::thread
 )
 
-# Include directories for client
+# Include directories for client and server
 target_include_directories(${CLIENT_BINARY} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/
     ${SFML_INCLUDE_DIR}  # Include path for SFML
 )
 
-# Include directories for server
 target_include_directories(${SERVER_BINARY} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/
     ${CMAKE_CURRENT_SOURCE_DIR}/Game_Play/
