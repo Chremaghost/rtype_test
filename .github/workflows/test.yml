@@ -59,8 +59,8 @@ jobs:
       run: |
         if ($env:VCVARSALL_PATH) {
           Write-Host "Attempting to run: '$($env:VCVARSALL_PATH) x64'"
-          & "$env:VCVARSALL_PATH" x64  # Exécute vcvarsall.bat
-          cmake -B build -DCMAKE_CXX_COMPILER=g++ -S .  # Configure CMake
+          # Utilisation de cmd.exe pour exécuter la commande avec le bon contexte
+          cmd.exe /c ""$env:VCVARSALL_PATH" x64 && cmake -B build -DCMAKE_CXX_COMPILER=g++ -S ."
         } else {
           Write-Host "Error: vcvarsall.bat not found!"
           exit 1
