@@ -22,6 +22,10 @@ CPMAddPackage(
     GIT_TAG 2.6.1  # Latest stable version
 )
 
+# Compile SFML statically
+set(BUILD_SHARED_LIBS OFF)
+set(SFML_STATIC_LIBRARIES ON)
+
 find_package(Boost REQUIRED COMPONENTS asio system filesystem thread)
 find_package(SFML REQUIRED COMPONENTS graphics window system audio)
 
