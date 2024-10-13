@@ -32,10 +32,11 @@ jobs:
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
           libvorbis-dev libogg-dev libflac-dev libopenal-dev
 
-    - name: Install MSYS2 on Windows without update
+    - name: Setup MSYS2 on Windows
       if: matrix.os == 'windows-latest'
       run: |
         choco install msys2 --params "/NoUpdate"
+        RefreshEnv.cmd
 
     - name: Install required packages with pacman
       if: matrix.os == 'windows-latest'
@@ -45,7 +46,7 @@ jobs:
     - name: Configure CMake with CPM on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        C:/tools/msys64/mingw64/bin/cmake.exe -B build -DCMAKE_CXX_COMPILER=g++ -S .
+        C:/tools/msys64/mingw64/bin/cmake.exe -B build -G "Unix Makefiles" -DCMAKE_CXX_COMPILER=g++ -S .
 
     - name: Configure CMake with CPM on Ubuntu
       if: matrix.os == 'ubuntu-latest'
