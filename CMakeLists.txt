@@ -68,6 +68,7 @@ find_package(Threads REQUIRED)
 add_executable(${CLIENT_BINARY} ${CLIENT_SOURCES})
 
 # Link libraries for client
+if (WIN32)
 target_link_libraries(${CLIENT_BINARY}
     PRIVATE
     Threads::Threads
@@ -86,6 +87,26 @@ target_link_libraries(${CLIENT_BINARY}
     Boost::filesystem
     Boost::thread
 )
+elseif (UNIX)
+target_link_libraries(${CLIENT_BINARY}
+    PRIVATE
+    Threads::Threads
+    sfml-graphics
+    sfml-window
+    sfml-system
+    sfml-audio
+    -lFLAC
+    -logg
+    -lvorbis
+    -lvorbisfile
+    -lfreetype
+    -Wl,--enable-auto-import
+    Boost::asio
+    Boost::system
+    Boost::filesystem
+    Boost::thread
+)
+endif()
 
 # Create server executable
 add_executable(${SERVER_BINARY} ${SERVER_SOURCES})
