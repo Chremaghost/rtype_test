@@ -60,15 +60,15 @@ target_link_libraries(${CLIENT_BINARY}
     sfml-window
     sfml-system
     sfml-audio
-    -lFLAC
-    -logg
-    -lvorbis
-    -lvorbisfile
-    -lfreetype
     Boost::asio
     Boost::system
     Boost::filesystem
     Boost::thread
+    -lvorbis
+    -lvorbisfile
+    -logg
+    -lFLAC
+    -lfreetype
 )
 
 target_link_libraries(${SERVER_BINARY}
@@ -78,11 +78,11 @@ target_link_libraries(${SERVER_BINARY}
     sfml-window
     sfml-system
     sfml-audio
-    -lFLAC
     Boost::asio
     Boost::system
     Boost::filesystem
     Boost::thread
+    -lFLAC
 )
 
 # Include directories
