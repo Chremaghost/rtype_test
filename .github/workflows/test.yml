@@ -14,18 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        cpp_compiler: [g++, clang++]
-        include:
-          - os: windows-latest
-            cpp_compiler: cl
-          - os: windows-latest
-            cpp_compiler: clang++
-          - os: windows-latest
-            cpp_compiler: g++
-          - os: ubuntu-latest
-            cpp_compiler: g++
-          - os: ubuntu-latest
-            cpp_compiler: clang++
+        cpp_compiler: [g++]
 
     steps:
     - uses: actions/checkout@v4
@@ -38,44 +27,22 @@ jobs:
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
           libvorbis-dev libogg-dev libflac-dev libopenal-dev
 
-    - name: Setup Visual Studio Build Tools
-      if: matrix.os == 'windows-latest'
-      shell: pwsh
-      run: |
-        choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --quiet --includeRecommended"
-        choco install cmake --version=3.25.1 --installargs 'ADD_CMAKE_TO_PATH=System'
-        Start-Sleep -Seconds 30  # Pause pour laisser le temps à l'installation de s'achever
-
-    - name: Check for vcvarsall.bat location
-      if: matrix.os == 'windows-latest'
-      shell: pwsh
-      run: |
-        $vcvarsallPath = "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat"
-        if (Test-Path $vcvarsallPath) {
-          Write-Host "vcvarsall.bat found at: $vcvarsallPath"
-        } else {
-          Write-Host "Error: vcvarsall.bat not found at expected location!"
-          exit 1
-        }
-
-    - name: Configure CMake with CPM on Windows
-      if: matrix.os == 'windows-latest'
-      shell: pwsh
-      run: |
-        & "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" x64
-        cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S .
-
     - name: Install required packages on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        choco install openal boost-msvc14.1 sfml
+        choco install cmake --version=3.25.1 --installargs 'ADD_CMAKE_TO_PATH=System'
+        choco install mingw --version=8.1.0 --installargs 'ADD_TO_PATH=System'
+        Start-Sleep -Seconds 30  # Pause pour laisser le temps à l'installation de s'achever
+
+    - name: Configure CMake with CPM on Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        cmake -B build -DCMAKE_CXX_COMPILER=g++ -S .
 
     - name: Configure CMake with CPM on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
-        cmake -B build \
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
-        -S .
+        cmake -B build -DCMAKE_CXX_COMPILER=g++ -S .
 
     - name: Build rtype
       run: cmake --build build
