@@ -40,7 +40,7 @@ jobs:
         choco install cmake --version=3.25.1 --installargs 'ADD_CMAKE_TO_PATH=System'
         Start-Sleep -Seconds 60  # Augmenter le temps pour l'installation
 
-    - name: Find vcvarsall.bat dynamically
+    - name: Find and configure vcvarsall.bat dynamically
       if: matrix.os == 'windows-latest'
       shell: pwsh
       run: |
@@ -55,24 +55,14 @@ jobs:
         }
         if ($vcvarsallPath) {
           Write-Host "vcvarsall.bat found at: $($vcvarsallPath.FullName)"
-          $env:VCVARSALL_PATH = $vcvarsallPath.FullName
-        } else {
-          Write-Host "Error: vcvarsall.bat not found in common Visual Studio directories!"
-          exit 1
-        }
-
-    - name: Configure CMake with CPM on Windows
-      if: matrix.os == 'windows-latest'
-      shell: pwsh
-      run: |
-        if ($env:VCVARSALL_PATH) {
-          Write-Host "VCVARSALL_PATH: $env:VCVARSALL_PATH"
-          Write-Host "Attempting to run: '$($env:VCVARSALL_PATH) x64'"
-          Start-Process -FilePath "$env:VCVARSALL_PATH" -ArgumentList 'x64' -NoNewWindow -Wait
+          Write-Host "Attempting to run: '$($vcvarsallPath.FullName) x64'"
+          Start-Process -FilePath "$($vcvarsallPath.FullName)" -ArgumentList 'x64' -NoNewWindow -Wait
           Start-Sleep -Seconds 5  # Attendre un moment après l'exécution
+          
+          # Configurer CMake directement après avoir exécuté vcvarsall.bat
           cmake -B build -G 'Visual Studio 16 2019' -DCMAKE_CXX_COMPILER=g++ -S .
         } else {
-          Write-Host "Error: vcvarsall.bat not found!"
+          Write-Host "Error: vcvarsall.bat not found in common Visual Studio directories!"
           exit 1
         }
 
