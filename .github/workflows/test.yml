@@ -40,19 +40,35 @@ jobs:
 
     - name: Setup Visual Studio Build Tools
       if: matrix.os == 'windows-latest'
-      shell: cmd
+      shell: pwsh
       run: |
         choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --quiet --includeRecommended"
         choco install cmake --version=3.25.1 --installargs 'ADD_CMAKE_TO_PATH=System'
-        if not exist "C:/Program Files/Microsoft Visual Studio/2022/BuildTools/VC/Auxiliary/Build/vcvarsall.bat" (
-          echo "Error: vcvarsall.bat not found!" && exit 1
-        )
+        Start-Sleep -Seconds 30  # Pause pour laisser le temps à l'installation de s'achever
+
+    - name: Find vcvarsall.bat location
+      if: matrix.os == 'windows-latest'
+      shell: pwsh
+      run: |
+        $vcvarsall = Get-Command -ErrorAction SilentlyContinue vcvarsall.bat
+        if (-not $vcvarsall) {
+          Write-Host "Error: vcvarsall.bat not found!"
+          exit 1
+        }
+        Write-Host "vcvarsall.bat found at: $($vcvarsall.Source)"
 
     - name: Configure CMake with CPM on Windows
       if: matrix.os == 'windows-latest'
-      shell: cmd
+      shell: pwsh
       run: |
-        "C:/Program Files/Microsoft Visual Studio/2022/BuildTools/VC/Auxiliary/Build/vcvarsall.bat" x64 && cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S .
+        $vcvarsall = Get-Command -ErrorAction SilentlyContinue vcvarsall.bat
+        if ($vcvarsall) {
+          & "$($vcvarsall.Source)" x64
+          cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -S .
+        } else {
+          Write-Host "Error: vcvarsall.bat not found!"
+          exit 1
+        }
 
     - name: Install required packages on Windows
       if: matrix.os == 'windows-latest'
