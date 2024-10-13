@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        cpp_compiler: [g++, clang++]
+        cpp_compiler: [g++, clang++, cl]
         include:
           - os: windows-latest
             cpp_compiler: cl
@@ -34,16 +34,16 @@ jobs:
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
           libvorbis-dev libogg-dev libflac-dev libopenal-dev
 
-    - name: Setup Visual Studio
+    - name: Setup Visual Studio Build Tools
       if: matrix.os == 'windows-latest'
       run: |
-        choco install visualstudio2022community --package-parameters "--includeOptional --quiet"
+        choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --quiet --includeRecommended"
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 
-    - name: Configure CMake with CPM
+    - name: Configure CMake with CPM on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+        call "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" x64
         cmake -B build \
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
         -S .
@@ -53,7 +53,7 @@ jobs:
       run: |
         choco install openal boost-msvc14.1 sfml
 
-    - name: Configure CMake with CPM
+    - name: Configure CMake with CPM on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
         cmake -B build \
