@@ -73,11 +73,18 @@ target_link_libraries(${CLIENT_BINARY}
     sfml-window
     sfml-system
     sfml-audio
+    -lFLAC
+    -logg
+    -lvorbis
+    -lvorbisfile
+    -lfreetype
     Boost::asio
     Boost::system
     Boost::filesystem
     Boost::thread
 )
+
+
 
 # Create server executable
 add_executable(${SERVER_BINARY} ${SERVER_SOURCES})
@@ -89,9 +96,16 @@ target_link_libraries(${SERVER_BINARY}
     sfml-graphics
     sfml-window
     sfml-system
+    sfml-audio
+    -lFLAC
+    -logg
+    -lvorbis
+    -lvorbisfile
+    -lfreetype
     Boost::asio
     Boost::system
     Boost::filesystem
+    Boost::thread
 )
 
 # Include directories for client
