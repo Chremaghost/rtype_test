@@ -60,7 +60,7 @@ jobs:
           Start-Sleep -Seconds 5  # Attendre un moment après l'exécution
           
           # Configurer CMake directement après avoir exécuté vcvarsall.bat
-          cmake -B build -G 'Visual Studio 16 2019' -DCMAKE_CXX_COMPILER=g++ -S .
+          cmake -B build -G 'Visual Studio 17 2022' -DCMAKE_CXX_COMPILER=g++ -S .
         } else {
           Write-Host "Error: vcvarsall.bat not found in common Visual Studio directories!"
           exit 1
