@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(RType LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)  # or adjust as needed
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -19,13 +19,13 @@ CPMAddPackage(
 CPMAddPackage(
     NAME SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.5.1  # Adjust as needed
+    GIT_TAG 2.6.1  # Latest stable version
 )
 
 find_package(Boost REQUIRED COMPONENTS asio system filesystem thread)
 find_package(SFML REQUIRED COMPONENTS graphics window system audio)
 
-add_compile_definitions(__USE_MINGW_ANSI_STDINC=1)  # Add this line
+add_compile_definitions(__USE_MINGW_ANSI_STDINC=1)
 
 set(NETWORK_SOURCES
     src/client/ClientNetworkManager.cpp
@@ -88,7 +88,6 @@ target_link_libraries(${SERVER_BINARY}
 # Include directories
 target_include_directories(${CLIENT_BINARY} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/)
 target_include_directories(${SERVER_BINARY} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/)
-
 
 # Platform-specific handling for custom commands
 if (WIN32)
