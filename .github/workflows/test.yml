@@ -32,55 +32,23 @@ jobs:
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
           libvorbis-dev libogg-dev libflac-dev libopenal-dev
 
-    - name: Setup Visual Studio Build Tools
-      if: matrix.os == 'windows-latest'
-      shell: pwsh
-      run: |
-        choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --quiet --includeRecommended"
-        choco install cmake --version=3.25.1 --installargs 'ADD_CMAKE_TO_PATH=System'
-        Start-Sleep -Seconds 60  # Augmenter le temps pour l'installation
-
-    - name: Find and configure vcvarsall.bat dynamically
-      if: matrix.os == 'windows-latest'
-      shell: pwsh
-      run: |
-        $paths = @(
-          "C:\Program Files (x86)\Microsoft Visual Studio\",
-          "C:\Program Files\Microsoft Visual Studio\"
-        )
-        $vcvarsallPath = $null
-        foreach ($path in $paths) {
-          $vcvarsallPath = Get-ChildItem -Path $path -Recurse -Filter "vcvarsall.bat" -ErrorAction SilentlyContinue | Select-Object -First 1
-          if ($vcvarsallPath) { break }
-        }
-        if ($vcvarsallPath) {
-          Write-Host "vcvarsall.bat found at: $($vcvarsallPath.FullName)"
-          Write-Host "Attempting to run: '$($vcvarsallPath.FullName) x64'"
-          Start-Process -FilePath "$($vcvarsallPath.FullName)" -ArgumentList 'x64' -NoNewWindow -Wait
-          Start-Sleep -Seconds 5  # Attendre un moment après l'exécution
-
-          # Vérifiez les variables d'environnement pour s'assurer qu'elles sont définies
-          Write-Host "Verifying environment variables:"
-          Get-ChildItem Env: | Where-Object { $_.Name -like "VS*" }
-
-          # Configurer CMake directement après avoir exécuté vcvarsall.bat
-          cmake -B build -G 'Visual Studio 17 2022' -DCMAKE_CXX_COMPILER=g++ -S .
-        } else {
-          Write-Host "Error: vcvarsall.bat not found in common Visual Studio directories!"
-          exit 1
-        }
-
-    - name: Install required packages on Windows
+    - name: Install MSYS2 for Windows
       if: matrix.os == 'windows-latest'
       run: |
-        choco install openal boost-msvc14.1 sfml
+        choco install msys2
+        msys2 -c "pacman -Syu --noconfirm"
+        msys2 -c "pacman -S --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-openal"
 
-    - name: Configure CMake with CPM on Ubuntu
+    - name: Configure CMake with g++ on Windows
+      if: matrix.os == 'windows-latest'
+      shell: msys2
+      run: |
+        cmake -G "MinGW Makefiles" -B build -DCMAKE_CXX_COMPILER=g++ -S .
+
+    - name: Configure CMake with g++ on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
-        cmake -B build \
-        -DCMAKE_CXX_COMPILER=g++ \
-        -S .
+        cmake -B build -DCMAKE_CXX_COMPILER=g++ -S .
 
     - name: Build rtype
       run: cmake --build build
