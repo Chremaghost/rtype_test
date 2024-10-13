@@ -8,6 +8,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CLIENT_BINARY "rtype-client")
 set(SERVER_BINARY "rtype-server")
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_MSC_VER=1911")
+
 # Integration of CPM
 include(cmake/CPM.cmake)
 
