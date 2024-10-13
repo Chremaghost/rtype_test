@@ -114,18 +114,6 @@ target_include_directories(${SERVER_BINARY} PRIVATE
 
 # Platform-specific handling for custom commands
 if (WIN32)
-    # Attempt to find vcvarsall.bat
-    get_filename_component(MY_LINKER_DIR ${CMAKE_LINKER} DIRECTORY)
-    find_file(MY_VCVARSALL_BAT vcvarsall.bat
-        "${MY_LINKER_DIR}/.." "${MY_LINKER_DIR}/../..")
-
-    if(NOT MY_VCVARSALL_BAT)
-        message(FATAL_ERROR "vcvarsall.bat not found. Ensure Visual Studio is installed correctly.")
-    endif()
-
-    # Execute vcvarsall.bat to set up the environment
-    execute_process(COMMAND "${MY_VCVARSALL_BAT}" x64)
-
     add_custom_command(TARGET ${CLIENT_BINARY} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${CLIENT_BINARY}>/assets
