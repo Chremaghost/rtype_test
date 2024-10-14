@@ -34,21 +34,23 @@ jobs:
     - name: Set up MinGW from local repository on Windows
       if: matrix.os == 'windows-latest'
       run: |
+        # Add MinGW to PATH using environment file approach
         echo "${{ github.workspace }}/mingw32/bin" >> $GITHUB_PATH
 
     - name: Configure CMake with g++ on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        ${{ github.workspace }}/mingw32/bin/cmake.exe -B build -DCMAKE_CXX_COMPILER=g++ -G "Unix Makefiles" -S .
+        # Run CMake using MinGW's g++
+        ${{ github.workspace }}/mingw32/bin/cmake.exe -B build -DCMAKE_CXX_COMPILER=${{ github.workspace }}/mingw32/bin/g++ -G "Unix Makefiles" -S .
 
     - name: Configure CMake with g++ on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
         cmake -B build -DCMAKE_CXX_COMPILER=g++ -G "Unix Makefiles" -S .
 
-    - name: Build rtype
+    - name: Build rtype on both platforms
       run: make -C build
 
-    - name: Test rtype
+    - name: Test rtype on both platforms
       working-directory: ./build
       run: ctest --verbose
