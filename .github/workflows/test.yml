@@ -23,7 +23,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # For Ubuntu (no changes)
     - name: Install required system packages on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -32,30 +31,24 @@ jobs:
           libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
           libvorbis-dev libogg-dev libflac-dev libopenal-dev
 
-    # For Windows, use the local decompressed MinGW files
-    - name: Set up MinGW from local repository
+    - name: Set up MinGW from local repository on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        # Add the local MinGW folder to PATH
-        echo "::add-path::${{ github.workspace }}/mingw64/bin"
-      
-    # Configure CMake with g++ on Windows
+        echo "${{ github.workspace }}/mingw64/bin" >> $GITHUB_PATH
+
     - name: Configure CMake with g++ on Windows
       if: matrix.os == 'windows-latest'
       run: |
         ${{ github.workspace }}/mingw64/bin/cmake.exe -B build -DCMAKE_CXX_COMPILER=g++ -G "Unix Makefiles" -S .
 
-    # Configure CMake with g++ on Ubuntu (no changes)
     - name: Configure CMake with g++ on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
         cmake -B build -DCMAKE_CXX_COMPILER=g++ -G "Unix Makefiles" -S .
 
-    # Build project
     - name: Build rtype
       run: make -C build
 
-    # Test the build
     - name: Test rtype
       working-directory: ./build
       run: ctest --verbose
