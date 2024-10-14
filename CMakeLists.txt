@@ -13,7 +13,7 @@ include(cmake/CPM.cmake)
 CPMAddPackage(
     NAME Boost
     GIT_REPOSITORY https://github.com/boostorg/boost.git
-    GIT_TAG boost-1.83.0
+    GIT_TAG boost-1.86.0
 )
 
 CPMAddPackage(
