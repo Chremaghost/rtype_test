@@ -1,4 +1,4 @@
-# Copyright (C) 2010-2022 Free Software Foundation, Inc.
+# Copyright (C) 2010-2023 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,24 +13,36 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import signal
+import threading
 import traceback
 import os
 import sys
 import _gdb
+from contextlib import contextmanager
 
 # Python 3 moved "reload"
 if sys.version_info >= (3, 4):
     from importlib import reload
-elif sys.version_info[0] > 2:
+else:
     from imp import reload
 
 from _gdb import *
+
+# Historically, gdb.events was always available, so ensure it's
+# still available without an explicit import.
+import _gdbevents as events
+
+sys.modules["gdb.events"] = events
 
 
 class _GdbFile(object):
     # These two are needed in Python 3
     encoding = "UTF-8"
     errors = "strict"
+
+    def __init__(self, stream):
+        self.stream = stream
 
     def close(self):
         # Do nothing.
@@ -44,23 +56,15 @@ class _GdbFile(object):
             self.write(line)
 
     def flush(self):
-        flush()
+        flush(stream=self.stream)
 
-
-class _GdbOutputFile(_GdbFile):
     def write(self, s):
-        write(s, stream=STDOUT)
+        write(s, stream=self.stream)
 
 
-sys.stdout = _GdbOutputFile()
+sys.stdout = _GdbFile(STDOUT)
 
-
-class _GdbOutputErrorFile(_GdbFile):
-    def write(self, s):
-        write(s, stream=STDERR)
-
-
-sys.stderr = _GdbOutputErrorFile()
+sys.stderr = _GdbFile(STDERR)
 
 # Default prompt hook does nothing.
 prompt_hook = None
@@ -231,20 +235,59 @@ def find_pc_line(pc):
     return current_progspace().find_pc_line(pc)
 
 
-try:
-    from pygments import formatters, lexers, highlight
+def set_parameter(name, value):
+    """Set the GDB parameter NAME to VALUE."""
+    # Handle the specific cases of None and booleans here, because
+    # gdb.parameter can return them, but they can't be passed to 'set'
+    # this way.
+    if value is None:
+        value = "unlimited"
+    elif isinstance(value, bool):
+        if value:
+            value = "on"
+        else:
+            value = "off"
+    execute("set " + name + " " + str(value), to_string=True)
 
-    def colorize(filename, contents):
-        # Don't want any errors.
-        try:
-            lexer = lexers.get_lexer_for_filename(filename, stripnl=False)
-            formatter = formatters.TerminalFormatter()
-            return highlight(contents, lexer, formatter)
-        except:
-            return None
+
+@contextmanager
+def with_parameter(name, value):
+    """Temporarily set the GDB parameter NAME to VALUE.
+    Note that this is a context manager."""
+    old_value = parameter(name)
+    set_parameter(name, value)
+    try:
+        # Nothing that useful to return.
+        yield None
+    finally:
+        set_parameter(name, old_value)
 
 
-except:
+@contextmanager
+def blocked_signals():
+    """A helper function that blocks and unblocks signals."""
+    if not hasattr(signal, "pthread_sigmask"):
+        yield
+        return
 
-    def colorize(filename, contents):
-        return None
+    to_block = {signal.SIGCHLD, signal.SIGINT, signal.SIGALRM, signal.SIGWINCH}
+    old_mask = signal.pthread_sigmask(signal.SIG_BLOCK, to_block)
+    try:
+        yield None
+    finally:
+        signal.pthread_sigmask(signal.SIG_SETMASK, old_mask)
+
+
+class Thread(threading.Thread):
+    """A GDB-specific wrapper around threading.Thread
+
+    This wrapper ensures that the new thread blocks any signals that
+    must be delivered on GDB's main thread."""
+
+    def start(self):
+        # GDB requires that these be delivered to the main thread.  We
+        # do this here to avoid any possible race with the creation of
+        # the new thread.  The thread mask is inherited by new
+        # threads.
+        with blocked_signals():
+            super().start()
