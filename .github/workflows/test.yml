@@ -39,9 +39,10 @@ jobs:
 
     - name: Configure CMake with g++ on Windows
       if: matrix.os == 'windows-latest'
+      shell: pwsh
       run: |
         # Set the CXX environment variable to MinGW g++.exe
-        export CXX="${{ github.workspace }}/mingw32/bin/g++.exe"
+        $env:CXX="${{ github.workspace }}/mingw32/bin/g++.exe"
         # Run CMake
         ${{ github.workspace }}/mingw32/bin/cmake.exe -B build -G "Unix Makefiles" -S .
 
