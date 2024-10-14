@@ -68,11 +68,11 @@ target_link_libraries(${CLIENT_BINARY}
     Boost::system
     Boost::filesystem
     Boost::thread
-    -lvorbis
-    -lvorbisfile
-    -logg
-    -lFLAC
-    -lfreetype
+   # -lvorbis
+   # -lvorbisfile
+    #-logg
+    #-lFLAC
+    #-lfreetype
 )
 
 target_link_libraries(${SERVER_BINARY}
@@ -86,7 +86,7 @@ target_link_libraries(${SERVER_BINARY}
     Boost::system
     Boost::filesystem
     Boost::thread
-    -lFLAC
+    #-lFLAC
 )
 
 # Include directories
