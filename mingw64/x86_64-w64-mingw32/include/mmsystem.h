@@ -11,7 +11,9 @@
 
 #include <mmsyscom.h>
 
+#ifdef _WIN32
 #include <pshpack1.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,6 +54,8 @@ extern "C" {
 }
 #endif
 
+#ifdef _WIN32
 #include <poppack.h>
+#endif
 
 #endif /* _INC_MMSYSTEM */

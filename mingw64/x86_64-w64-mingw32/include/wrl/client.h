@@ -206,6 +206,7 @@ namespace Microsoft {
                 if (ptr_ != other) {
                     InternalRelease();
                     ptr_ = other;
+                    InternalAddRef();
                 }
             }
 

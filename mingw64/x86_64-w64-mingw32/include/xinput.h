@@ -210,16 +210,6 @@ typedef struct _XINPUT_CAPABILITIES {
     XINPUT_VIBRATION Vibration;
 } XINPUT_CAPABILITIES, *PXINPUT_CAPABILITIES;
 
-typedef struct _XINPUT_CAPABILITIES_EX
-{
-    XINPUT_CAPABILITIES Capabilities;
-    WORD  VendorId;
-    WORD  ProductId;
-    WORD  VersionNumber;
-    WORD  unk1;
-    DWORD unk2;
-} XINPUT_CAPABILITIES_EX, *PXINPUT_CAPABILITIES_EX;
-
 /*
  * Defines the structure for a joystick input event which is
  * retrieved using the function XInputGetKeystroke
@@ -247,7 +237,6 @@ DWORD WINAPI XInputSetState(DWORD, XINPUT_VIBRATION*);
 DWORD WINAPI XInputGetState(DWORD, XINPUT_STATE*);
 DWORD WINAPI XInputGetKeystroke(DWORD, DWORD, PXINPUT_KEYSTROKE);
 DWORD WINAPI XInputGetCapabilities(DWORD, DWORD, XINPUT_CAPABILITIES*);
-DWORD WINAPI XInputGetCapabilitiesEx(DWORD, DWORD, DWORD, XINPUT_CAPABILITIES_EX*);
 DWORD WINAPI XInputGetDSoundAudioDeviceGuids(DWORD, GUID*, GUID*);
 DWORD WINAPI XInputGetBatteryInformation(DWORD, BYTE, XINPUT_BATTERY_INFORMATION*);
 

@@ -770,8 +770,6 @@ typedef struct _DDCOLORKEY
 #define DDCKEYCAPS_SRCOVERLAYYUV		0x00020000
 #define DDCKEYCAPS_NOCOSTOVERLAY		0x00040000
 
-#ifndef _DDPIXELFORMAT_DEFINED
-#define _DDPIXELFORMAT_DEFINED
 typedef struct _DDPIXELFORMAT {
     DWORD	dwSize;                 /* 0: size of structure */
     DWORD	dwFlags;                /* 4: pixel format flags */
@@ -818,7 +816,6 @@ typedef struct _DDPIXELFORMAT {
     } DUMMYUNIONNAME5;
     					/* 20: next structure */
 } DDPIXELFORMAT,*LPDDPIXELFORMAT;
-#endif /* _DDPIXELFORMAT_DEFINED */
 
 #ifndef MAKEFOURCC
 #define MAKEFOURCC(ch0, ch1, ch2, ch3)  \

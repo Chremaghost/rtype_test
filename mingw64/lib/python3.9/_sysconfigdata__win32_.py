@@ -6,7 +6,7 @@ build_time_vars = {'ABIFLAGS': '',
  'AIX_GENUINE_CPLUSPLUS': 0,
  'ALT_SOABI': 0,
  'ANDROID_API_LEVEL': 0,
- 'AR': '/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-gcc-ar.exe',
+ 'AR': 'ar',
  'ARFLAGS': 'rcs',
  'BASECFLAGS': '-Wno-unused-result -Wsign-compare',
  'BASECPPFLAGS': '-IObjects -IInclude -IPython',
@@ -14,8 +14,7 @@ build_time_vars = {'ABIFLAGS': '',
  'BINDIR': '' + os.path.abspath(os.path.dirname(os.path.abspath(__file__))) + '/share/python/bin',
  'BINLIBDEST': '' + os.path.abspath(os.path.dirname(os.path.abspath(__file__))) + '/share/python/lib/python3.9',
  'BLDLIBRARY': '-L. -lpython3.9',
- 'BLDSHARED': '/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-gcc.exe '
-              '-shared -Wl,--enable-auto-image-base',
+ 'BLDSHARED': 'x86_64-w64-mingw32-gcc -shared -Wl,--enable-auto-image-base',
  'BUILDEXE': '.exe',
  'BUILDPYTHON': 'python.exe',
  'BUILDPYTHONW': 'pythonw.exe',
@@ -23,17 +22,15 @@ build_time_vars = {'ABIFLAGS': '',
  'BUILDVENVWLAUNCHER': 'venvwlauncher.exe',
  'BUILD_GNU_TYPE': 'x86_64-w64-mingw32',
  'BYTESTR_DEPS': '\\',
- 'CC': '/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-gcc.exe',
+ 'CC': 'x86_64-w64-mingw32-gcc',
  'CCSHARED': '',
  'CFLAGS': '-Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall '
-           '-D_POSIX -Wno-implicit-function-declaration '
-           '-Wno-incompatible-pointer-types',
+           '-D_POSIX -Wno-implicit-function-declaration',
  'CFLAGSFORSHARED': '',
  'CFLAGS_ALIASING': '',
  'CONFIGFILES': 'configure configure.ac acconfig.h pyconfig.h.in '
                 'Makefile.pre.in',
- 'CONFIGURE_CFLAGS': '-D_POSIX -Wno-implicit-function-declaration '
-                     '-Wno-incompatible-pointer-types',
+ 'CONFIGURE_CFLAGS': '-D_POSIX -Wno-implicit-function-declaration',
  'CONFIGURE_CFLAGS_NODIST': '-std=c99 -Wextra -Wno-unused-result '
                             '-Wno-unused-parameter '
                             '-Wno-missing-field-initializers '
@@ -52,21 +49,19 @@ build_time_vars = {'ABIFLAGS': '',
                 "'--without-c-locale-coercion' "
                 "'--enable-loadable-sqlite-extensions' "
                 "'--with-ssl-default-suites=openssl' 'CFLAGS=-D_POSIX "
-                '-Wno-implicit-function-declaration '
-                "-Wno-incompatible-pointer-types' "
+                "-Wno-implicit-function-declaration' "
                 "'build_alias=x86_64-w64-mingw32' "
                 "'host_alias=x86_64-w64-mingw32' "
-                "'CC=/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-gcc.exe' "
                 "'PKG_CONFIG_PATH=/d/Prog/winlibs64_stage/custombuilt/lib/pkgconfig:/d/Prog/winlibs64_stage/custombuilt/share/pkgconfig'",
  'CONFINCLUDEDIR': '' + os.path.abspath(os.path.dirname(os.path.abspath(__file__))) + '/share/python/include',
  'CONFINCLUDEPY': '' + os.path.abspath(os.path.dirname(os.path.abspath(__file__))) + '/share/python/include/python3.9',
  'COREPYTHONPATH': '',
- 'COVERAGE_INFO': '/R/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw/build_win/coverage.info',
- 'COVERAGE_REPORT': '/R/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw/build_win/lcov-report',
+ 'COVERAGE_INFO': '/r/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw/build_win/coverage.info',
+ 'COVERAGE_REPORT': '/r/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw/build_win/lcov-report',
  'COVERAGE_REPORT_OPTIONS': '--no-branch-coverage --title "CPython lcov '
                             'report"',
  'CPPFLAGS': '-IObjects -IInclude -IPython -I. -I../Include -I../PC  -I.',
- 'CXX': '/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-g++.exe',
+ 'CXX': 'x86_64-w64-mingw32-c++',
  'DESTDIR': '',
  'DESTDIRFINAL': '/',
  'DESTDIRS': '' + os.path.abspath(os.path.dirname(os.path.abspath(__file__))) + '/share/python '
@@ -551,13 +546,11 @@ build_time_vars = {'ABIFLAGS': '',
  'INSTSONAME': 'libpython3.9.dll.a',
  'IO_H': 'Modules/_io/_iomodule.h',
  'IO_OBJS': '\\',
- 'LDCXXSHARED': '/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-g++.exe '
-                '-shared -Wl,--enable-auto-image-base',
+ 'LDCXXSHARED': 'x86_64-w64-mingw32-c++ -shared -Wl,--enable-auto-image-base',
  'LDFLAGS': '',
  'LDLIBRARY': 'libpython3.9.dll.a',
  'LDLIBRARYDIR': '',
- 'LDSHARED': '/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-gcc.exe '
-             '-shared -Wl,--enable-auto-image-base',
+ 'LDSHARED': 'x86_64-w64-mingw32-gcc -shared -Wl,--enable-auto-image-base',
  'LDVERSION': '3.9',
  'LIBC': '',
  'LIBDEST': '' + os.path.abspath(os.path.dirname(os.path.abspath(__file__))) + '/share/python/lib/python3.9',
@@ -574,7 +567,7 @@ build_time_vars = {'ABIFLAGS': '',
  'LIBRARY_OBJS_OMIT_FROZEN': '\\',
  'LIBS': '-lcrypt  -lm -lversion -lshlwapi',
  'LIBSUBDIRS': 'tkinter tkinter/test tkinter/test/test_tkinter \\',
- 'LINKCC': '/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-gcc.exe',
+ 'LINKCC': 'x86_64-w64-mingw32-gcc',
  'LINKFORSHARED': '-Wl,--stack,2000000',
  'LIPO_32BIT_FLAGS': '',
  'LIPO_INTEL64_FLAGS': '',
@@ -587,7 +580,7 @@ build_time_vars = {'ABIFLAGS': '',
  'MACHDEP_OBJS': 'PC/dl_nt.o',
  'MACHDESTLIB': '' + os.path.abspath(os.path.dirname(os.path.abspath(__file__))) + '/share/python/lib/python3.9',
  'MACOSX_DEPLOYMENT_TARGET': '',
- 'MAINCC': '/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-gcc.exe',
+ 'MAINCC': 'x86_64-w64-mingw32-gcc',
  'MAJOR_IN_MKDEV': 0,
  'MAJOR_IN_SYSMACROS': 0,
  'MAKESETUP': '../Modules/makesetup',
@@ -623,8 +616,8 @@ build_time_vars = {'ABIFLAGS': '',
  'NO_AS_NEEDED': '-Wl,--no-as-needed',
  'NT_THREADS': 1,
  'OBJECT_OBJS': '\\',
- 'OPENSSL_INCLUDES': '-ID:Progwinlibs64_stagecustombuiltlibpkgconfig/../../include',
- 'OPENSSL_LDFLAGS': '-LD:Progwinlibs64_stagecustombuiltlibpkgconfig/../../lib',
+ 'OPENSSL_INCLUDES': '-ID:/Prog/winlibs64_stage/custombuilt/include',
+ 'OPENSSL_LDFLAGS': '-LD:/Prog/winlibs64_stage/custombuilt/lib',
  'OPENSSL_LIBS': '-lssl -lcrypto',
  'OPT': '-DNDEBUG -g -fwrapv -O3 -Wall',
  'OTHER_LIBTOOL_OPT': '',
@@ -663,9 +656,8 @@ build_time_vars = {'ABIFLAGS': '',
  'PY_BUILTIN_HASHLIB_HASHES': '"md5,sha1,sha256,sha512,sha3,blake2"',
  'PY_BUILTIN_MODULE_CFLAGS': '-Wno-unused-result -Wsign-compare -DNDEBUG -g '
                              '-fwrapv -O3 -Wall -D_POSIX '
-                             '-Wno-implicit-function-declaration '
-                             '-Wno-incompatible-pointer-types -std=c99 -Wextra '
-                             '-Wno-unused-result -Wno-unused-parameter '
+                             '-Wno-implicit-function-declaration -std=c99 '
+                             '-Wextra -Wno-unused-result -Wno-unused-parameter '
                              '-Wno-missing-field-initializers '
                              '-Wstrict-prototypes '
                              '-Werror=implicit-function-declaration '
@@ -674,8 +666,7 @@ build_time_vars = {'ABIFLAGS': '',
                              '-IObjects -IInclude -IPython -I. -I../Include '
                              '-I../PC  -I. -DPy_BUILD_CORE_BUILTIN',
  'PY_CFLAGS': '-Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall '
-              '-D_POSIX -Wno-implicit-function-declaration '
-              '-Wno-incompatible-pointer-types',
+              '-D_POSIX -Wno-implicit-function-declaration',
  'PY_CFLAGS_NODIST': '-std=c99 -Wextra -Wno-unused-result '
                      '-Wno-unused-parameter -Wno-missing-field-initializers '
                      '-Wstrict-prototypes '
@@ -684,9 +675,8 @@ build_time_vars = {'ABIFLAGS': '',
                      '-DMS_DLL_ID=\'"3.9"\'  -I../Include/internal',
  'PY_COERCE_C_LOCALE': 0,
  'PY_CORE_CFLAGS': '-Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 '
-                   '-Wall -D_POSIX -Wno-implicit-function-declaration '
-                   '-Wno-incompatible-pointer-types -std=c99 -Wextra '
-                   '-Wno-unused-result -Wno-unused-parameter '
+                   '-Wall -D_POSIX -Wno-implicit-function-declaration -std=c99 '
+                   '-Wextra -Wno-unused-result -Wno-unused-parameter '
                    '-Wno-missing-field-initializers -Wstrict-prototypes '
                    '-Werror=implicit-function-declaration -fvisibility=hidden '
                    '-D_WIN32_WINNT=0x0601 -DMS_DLL_ID=\'"3.9"\'  '
@@ -701,9 +691,9 @@ build_time_vars = {'ABIFLAGS': '',
  'PY_SSL_DEFAULT_CIPHER_STRING': 0,
  'PY_STDMODULE_CFLAGS': '-Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv '
                         '-O3 -Wall -D_POSIX -Wno-implicit-function-declaration '
-                        '-Wno-incompatible-pointer-types -std=c99 -Wextra '
-                        '-Wno-unused-result -Wno-unused-parameter '
-                        '-Wno-missing-field-initializers -Wstrict-prototypes '
+                        '-std=c99 -Wextra -Wno-unused-result '
+                        '-Wno-unused-parameter -Wno-missing-field-initializers '
+                        '-Wstrict-prototypes '
                         '-Werror=implicit-function-declaration '
                         '-fvisibility=hidden -D_WIN32_WINNT=0x0601 '
                         '-DMS_DLL_ID=\'"3.9"\'  -I../Include/internal '
@@ -775,10 +765,10 @@ build_time_vars = {'ABIFLAGS': '',
  'USE_COMPUTED_GOTOS': 0,
  'VENVLAUNCHERDIR': '' + os.path.abspath(os.path.dirname(os.path.abspath(__file__))) + '/share/python/lib/python3.9/venv/scripts/nt',
  'VERSION': '3.9',
- 'VPATH': 'R:/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw',
- 'VPATH_b2h': 'R:/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw',
- 'WINDOW_HAS_FLAGS': 0,
- 'WINDRES': '/d/Prog/winlibs64_stage/mingw64/bin/windres.exe',
+ 'VPATH': 'R:/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw',
+ 'VPATH_b2h': 'R:/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw',
+ 'WINDOW_HAS_FLAGS': 1,
+ 'WINDRES': 'windres',
  'WITH_DECIMAL_CONTEXTVAR': 1,
  'WITH_DOC_STRINGS': 1,
  'WITH_DTRACE': 0,
@@ -789,16 +779,16 @@ build_time_vars = {'ABIFLAGS': '',
  'WITH_VALGRIND': 0,
  'X87_DOUBLE_ROUNDING': 0,
  'XMLLIBSUBDIRS': 'xml xml/dom xml/etree xml/parsers xml/sax',
- 'abs_builddir': 'R:/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw/build_win',
- 'abs_builddir_b2h': 'R:/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw/build_win',
- 'abs_srcdir': 'R:/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw',
- 'abs_srcdir_b2h': 'R:/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw',
+ 'abs_builddir': 'R:/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw/build_win',
+ 'abs_builddir_b2h': 'R:/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw/build_win',
+ 'abs_srcdir': 'R:/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw',
+ 'abs_srcdir_b2h': 'R:/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw',
  'datarootdir': '' + os.path.abspath(os.path.dirname(os.path.abspath(__file__))) + '/share/python/share',
  'exec_prefix': '' + os.path.abspath(os.path.dirname(os.path.abspath(__file__))) + '/share/python',
  'prefix': '',
  'prefix_b2h': '',
- 'srcdir': 'R:/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw',
- 'srcdir_b2h': 'R:/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw'}
+ 'srcdir': 'R:/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw',
+ 'srcdir_b2h': 'R:/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw'}
 
 
 keys_to_replace = [

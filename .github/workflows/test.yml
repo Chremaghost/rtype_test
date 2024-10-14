@@ -35,16 +35,16 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         # Add MinGW to PATH using environment file approach
-        echo "${{ github.workspace }}/mingw32/bin" >> $GITHUB_PATH
+        echo "${{ github.workspace }}/mingw64/bin" >> $GITHUB_PATH
 
     - name: Configure CMake with g++ on Windows
       if: matrix.os == 'windows-latest'
       shell: pwsh
       run: |
         # Set the CXX environment variable to MinGW g++.exe
-        $env:CXX="${{ github.workspace }}/mingw32/bin/g++.exe"
+        $env:CXX="${{ github.workspace }}/mingw64/bin/g++.exe"
         # Run CMake
-        ${{ github.workspace }}/mingw32/bin/cmake.exe -B build -G "Unix Makefiles" -S .
+        ${{ github.workspace }}/mingw64/bin/cmake.exe -B build -G "Unix Makefiles" -S .
 
     - name: Configure CMake with g++ on Ubuntu
       if: matrix.os == 'ubuntu-latest'

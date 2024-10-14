@@ -28,6 +28,16 @@ extern char *optarg;		/* pointer to argument of current option  */
 
 extern int getopt(int nargc, char * const *nargv, const char *options);
 
+#ifdef _BSD_SOURCE
+/*
+ * BSD adds the non-standard `optreset' feature, for reinitialisation
+ * of `getopt' parsing.  We support this feature, for applications which
+ * proclaim their BSD heritage, before including this header; however,
+ * to maintain portability, developers are advised to avoid it.
+ */
+# define optreset  __mingw_optreset
+extern int optreset;
+#endif
 #ifdef __cplusplus
 }
 #endif
@@ -41,18 +51,6 @@ extern int getopt(int nargc, char * const *nargv, const char *options);
  * to declare the extended API.
  */
 #endif /* !defined(__GETOPT_H__) */
-
-#if !defined(__GETOPT_BSD_H__) && defined(_BSD_SOURCE)
-#define __GETOPT_BSD_H__
-/*
- * BSD adds the non-standard `optreset' feature, for reinitialisation
- * of `getopt' parsing.  We support this feature, for applications which
- * proclaim their BSD heritage, before including this header; however,
- * to maintain portability, developers are advised to avoid it.
- */
-# define optreset  __mingw_optreset
-extern int optreset;
-#endif /* !defined(__GETOPT_BSD_H__) && defined(_BSD_SOURCE) */
 
 #if !defined(__UNISTD_H_SOURCED__) && !defined(__GETOPT_LONG_H__)
 #define __GETOPT_LONG_H__

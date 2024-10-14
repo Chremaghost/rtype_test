@@ -30,6 +30,7 @@ typedef UINT  MCIDEVICEID;
 
 typedef UINT (CALLBACK *YIELDPROC)(MCIDEVICEID mciId, DWORD dwYieldData);
 
+#ifdef _WIN32
 WINMMAPI MCIERROR WINAPI mciSendCommandA(MCIDEVICEID mciId, UINT uMsg, DWORD_PTR dwParam1, DWORD_PTR dwParam2);
 WINMMAPI MCIERROR WINAPI mciSendCommandW(MCIDEVICEID mciId, UINT uMsg, DWORD_PTR dwParam1, DWORD_PTR dwParam2);
 #define mciSendCommand __MINGW_NAME_AW(mciSendCommand)
@@ -50,12 +51,23 @@ WINMMAPI WINBOOL WINAPI mciGetErrorStringA(MCIERROR mcierr, LPSTR pszText, UINT 
 WINMMAPI WINBOOL WINAPI mciGetErrorStringW(MCIERROR mcierr, LPWSTR pszText, UINT cchText);
 #define mciGetErrorString __MINGW_NAME_AW(mciGetErrorString)
 
+#else
+MCIERROR WINAPI mciSendCommand(MCIDEVICEID mciId, UINT uMsg, DWORD dwParam1, DWORD dwParam2);
+MCIERROR  WINAPI mciSendString(LPCSTR lpstrCommand, LPSTR lpstrReturnString, UINT uReturnLength, HWND hwndCallback);
+MCIDEVICEID WINAPI mciGetDeviceID(LPCSTR pszDevice);
+WINBOOL WINAPI mciGetErrorString(MCIERROR mcierr, LPSTR pszText, UINT cchText);
+#endif
+
 WINMMAPI WINBOOL WINAPI mciSetYieldProc(MCIDEVICEID mciId, YIELDPROC fpYieldProc, DWORD dwYieldData);
 
+#if (WINVER >= 0x030a)
 WINMMAPI HTASK WINAPI mciGetCreatorTask(MCIDEVICEID mciId);
 WINMMAPI YIELDPROC WINAPI mciGetYieldProc(MCIDEVICEID mciId, LPDWORD pdwYieldData);
+#endif
 
+#if (WINVER < 0x030a)
 WINMMAPI WINBOOL WINAPI mciExecute(LPCSTR pszCommand);
+#endif
 
 #define MCIERR_INVALID_DEVICE_ID (MCIERR_BASE + 1)
 #define MCIERR_UNRECOGNIZED_KEYWORD (MCIERR_BASE + 3)
@@ -318,6 +330,8 @@ typedef struct tagMCI_GENERIC_PARMS {
   DWORD_PTR dwCallback;
 } MCI_GENERIC_PARMS, *PMCI_GENERIC_PARMS, *LPMCI_GENERIC_PARMS;
 
+#ifdef _WIN32
+
 typedef struct tagMCI_OPEN_PARMSA {
   DWORD_PTR dwCallback;
   MCIDEVICEID wDeviceID;
@@ -338,6 +352,17 @@ __MINGW_TYPEDEF_AW(MCI_OPEN_PARMS)
 __MINGW_TYPEDEF_AW(PMCI_OPEN_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_OPEN_PARMS)
 
+#else
+typedef struct tagMCI_OPEN_PARMS {
+  DWORD dwCallback;
+  MCIDEVICEID wDeviceID;
+  WORD wReserved0;
+  LPCSTR lpstrDeviceType;
+  LPCSTR lpstrElementName;
+  LPCSTR lpstrAlias;
+} MCI_OPEN_PARMS, *LPMCI_OPEN_PARMS;
+#endif
+
 typedef struct tagMCI_PLAY_PARMS {
   DWORD_PTR dwCallback;
   DWORD dwFrom;
@@ -356,6 +381,8 @@ typedef struct tagMCI_STATUS_PARMS {
   DWORD dwTrack;
 } MCI_STATUS_PARMS, *PMCI_STATUS_PARMS, *LPMCI_STATUS_PARMS;
 
+#ifdef _WIN32
+
 typedef struct tagMCI_INFO_PARMSA {
   DWORD_PTR dwCallback;
   LPSTR lpstrReturn;
@@ -371,11 +398,21 @@ typedef struct tagMCI_INFO_PARMSW {
 __MINGW_TYPEDEF_AW(MCI_INFO_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_INFO_PARMS)
 
+#else
+typedef struct tagMCI_INFO_PARMS {
+  DWORD dwCallback;
+  LPSTR lpstrReturn;
+  DWORD dwRetSize;
+} MCI_INFO_PARMS, *LPMCI_INFO_PARMS;
+#endif
+
 typedef struct tagMCI_GETDEVCAPS_PARMS {
   DWORD_PTR dwCallback;
   DWORD dwReturn;
   DWORD dwItem;
 } MCI_GETDEVCAPS_PARMS, *PMCI_GETDEVCAPS_PARMS, *LPMCI_GETDEVCAPS_PARMS;
+
+#ifdef _WIN32
 
 typedef struct tagMCI_SYSINFO_PARMSA {
   DWORD_PTR dwCallback;
@@ -397,6 +434,17 @@ __MINGW_TYPEDEF_AW(MCI_SYSINFO_PARMS)
 __MINGW_TYPEDEF_AW(PMCI_SYSINFO_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_SYSINFO_PARMS)
 
+#else
+typedef struct tagMCI_SYSINFO_PARMS {
+  DWORD dwCallback;
+  LPSTR lpstrReturn;
+  DWORD dwRetSize;
+  DWORD dwNumber;
+  WORD wDeviceType;
+  WORD wReserved0;
+} MCI_SYSINFO_PARMS, *LPMCI_SYSINFO_PARMS;
+#endif
+
 typedef struct tagMCI_SET_PARMS {
   DWORD_PTR dwCallback;
   DWORD dwTimeFormat;
@@ -405,9 +453,18 @@ typedef struct tagMCI_SET_PARMS {
 
 typedef struct tagMCI_BREAK_PARMS {
   DWORD_PTR dwCallback;
+#ifdef _WIN32
   int nVirtKey;
   HWND hwndBreak;
+#else
+  short nVirtKey;
+  WORD wReserved0;
+  HWND hwndBreak;
+  WORD wReserved1;
+#endif
 } MCI_BREAK_PARMS, *PMCI_BREAK_PARMS, *LPMCI_BREAK_PARMS;
+
+#ifdef _WIN32
 
 typedef struct tagMCI_SAVE_PARMSA {
   DWORD_PTR dwCallback;
@@ -423,6 +480,15 @@ __MINGW_TYPEDEF_AW(MCI_SAVE_PARMS)
 __MINGW_TYPEDEF_AW(PMCI_SAVE_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_SAVE_PARMS)
 
+#else
+typedef struct tagMCI_SAVE_PARMS {
+  DWORD_PTR dwCallback;
+  LPCSTR lpfilename;
+} MCI_SAVE_PARMS, *LPMCI_SAVE_PARMS;
+#endif
+
+#ifdef _WIN32
+
 typedef struct tagMCI_LOAD_PARMSA {
   DWORD_PTR dwCallback;
   LPCSTR lpfilename;
@@ -436,6 +502,13 @@ typedef struct tagMCI_LOAD_PARMSW {
 __MINGW_TYPEDEF_AW(MCI_LOAD_PARMS)
 __MINGW_TYPEDEF_AW(PMCI_LOAD_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_LOAD_PARMS)
+
+#else
+typedef struct tagMCI_LOAD_PARMS {
+  DWORD dwCallback;
+  LPCSTR lpfilename;
+} MCI_LOAD_PARMS, *LPMCI_LOAD_PARMS;
+#endif
 
 typedef struct tagMCI_RECORD_PARMS {
   DWORD_PTR dwCallback;
@@ -493,6 +566,8 @@ typedef struct tagMCI_VD_STEP_PARMS {
   DWORD dwFrames;
 } MCI_VD_STEP_PARMS, *PMCI_VD_STEP_PARMS, *LPMCI_VD_STEP_PARMS;
 
+#ifdef _WIN32
+
 typedef struct tagMCI_VD_ESCAPE_PARMSA {
   DWORD_PTR dwCallback;
   LPCSTR lpstrCommand;
@@ -506,6 +581,13 @@ typedef struct tagMCI_VD_ESCAPE_PARMSW {
 __MINGW_TYPEDEF_AW(MCI_VD_ESCAPE_PARMS)
 __MINGW_TYPEDEF_AW(PMCI_VD_ESCAPE_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_VD_ESCAPE_PARMS)
+
+#else
+typedef struct tagMCI_VD_ESCAPE_PARMS {
+  DWORD dwCallback;
+  LPCSTR lpstrCommand;
+} MCI_VD_ESCAPE_PARMS, *LPMCI_VD_ESCAPE_PARMS;
+#endif
 
 #define MCI_CDA_STATUS_TYPE_TRACK __MSABI_LONG(0x00004001)
 
@@ -541,6 +623,8 @@ __MINGW_TYPEDEF_AW(LPMCI_VD_ESCAPE_PARMS)
 #define MCI_WAVE_GETDEVCAPS_INPUTS __MSABI_LONG(0x00004001)
 #define MCI_WAVE_GETDEVCAPS_OUTPUTS __MSABI_LONG(0x00004002)
 
+#ifdef _WIN32
+
 typedef struct tagMCI_WAVE_OPEN_PARMSA {
   DWORD_PTR dwCallback;
   MCIDEVICEID wDeviceID;
@@ -563,6 +647,18 @@ __MINGW_TYPEDEF_AW(MCI_WAVE_OPEN_PARMS)
 __MINGW_TYPEDEF_AW(PMCI_WAVE_OPEN_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_WAVE_OPEN_PARMS)
 
+#else
+typedef struct tagMCI_WAVE_OPEN_PARMS {
+  DWORD dwCallback;
+  MCIDEVICEID wDeviceID;
+  WORD wReserved0;
+  LPCSTR lpstrDeviceType;
+  LPCSTR lpstrElementName;
+  LPCSTR lpstrAlias;
+  DWORD dwBufferSeconds;
+} MCI_WAVE_OPEN_PARMS, *LPMCI_WAVE_OPEN_PARMS;
+#endif
+
 typedef struct tagMCI_WAVE_DELETE_PARMS {
   DWORD_PTR dwCallback;
   DWORD dwFrom;
@@ -573,8 +669,15 @@ typedef struct tagMCI_WAVE_SET_PARMS {
   DWORD_PTR dwCallback;
   DWORD dwTimeFormat;
   DWORD dwAudio;
+#ifdef _WIN32
   UINT wInput;
   UINT wOutput;
+#else
+  WORD wInput;
+  WORD wReserved0;
+  WORD wOutput;
+  WORD wReserved1;
+#endif
   WORD wFormatTag;
   WORD wReserved2;
   WORD nChannels;
@@ -675,6 +778,8 @@ typedef struct tagMCI_SEQ_SET_PARMS {
 
 #define MCI_ANIM_UPDATE_HDC __MSABI_LONG(0x00020000)
 
+#ifdef _WIN32
+
 typedef struct tagMCI_ANIM_OPEN_PARMSA {
   DWORD_PTR dwCallback;
   MCIDEVICEID wDeviceID;
@@ -699,6 +804,20 @@ __MINGW_TYPEDEF_AW(MCI_ANIM_OPEN_PARMS)
 __MINGW_TYPEDEF_AW(PMCI_ANIM_OPEN_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_ANIM_OPEN_PARMS)
 
+#else
+typedef struct tagMCI_ANIM_OPEN_PARMS {
+  DWORD dwCallback;
+  MCIDEVICEID wDeviceID;
+  WORD wReserved0;
+  LPCSTR lpstrDeviceType;
+  LPCSTR lpstrElementName;
+  LPCSTR lpstrAlias;
+  DWORD dwStyle;
+  HWND hWndParent;
+  WORD wReserved1;
+} MCI_ANIM_OPEN_PARMS, *LPMCI_ANIM_OPEN_PARMS;
+#endif
+
 typedef struct tagMCI_ANIM_PLAY_PARMS {
   DWORD_PTR dwCallback;
   DWORD dwFrom;
@@ -710,6 +829,8 @@ typedef struct tagMCI_ANIM_STEP_PARMS {
   DWORD_PTR dwCallback;
   DWORD dwFrames;
 } MCI_ANIM_STEP_PARMS, *PMCI_ANIM_STEP_PARMS, *LPMCI_ANIM_STEP_PARMS;
+
+#ifdef _WIN32
 
 typedef struct tagMCI_ANIM_WINDOW_PARMSA {
   DWORD_PTR dwCallback;
@@ -728,6 +849,17 @@ typedef struct tagMCI_ANIM_WINDOW_PARMSW {
 __MINGW_TYPEDEF_AW(MCI_ANIM_WINDOW_PARMS)
 __MINGW_TYPEDEF_AW(PMCI_ANIM_WINDOW_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_ANIM_WINDOW_PARMS)
+
+#else
+typedef struct tagMCI_ANIM_WINDOW_PARMS {
+  DWORD dwCallback;
+  HWND hWnd;
+  WORD wReserved1;
+  WORD nCmdShow;
+  WORD wReserved2;
+  LPCSTR lpstrText;
+} MCI_ANIM_WINDOW_PARMS, *LPMCI_ANIM_WINDOW_PARMS;
+#endif
 
 typedef struct tagMCI_ANIM_RECT_PARMS {
   DWORD_PTR dwCallback;
@@ -776,6 +908,8 @@ typedef struct tagMCI_ANIM_UPDATE_PARMS {
 #define MCI_OVLY_WHERE_FRAME __MSABI_LONG(0x00080000)
 #define MCI_OVLY_WHERE_VIDEO __MSABI_LONG(0x00100000)
 
+#ifdef _WIN32
+
 typedef struct tagMCI_OVLY_OPEN_PARMSA {
   DWORD_PTR dwCallback;
   MCIDEVICEID wDeviceID;
@@ -800,6 +934,22 @@ __MINGW_TYPEDEF_AW(MCI_OVLY_OPEN_PARMS)
 __MINGW_TYPEDEF_AW(PMCI_OVLY_OPEN_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_OVLY_OPEN_PARMS)
 
+#else
+typedef struct tagMCI_OVLY_OPEN_PARMS {
+  DWORD dwCallback;
+  MCIDEVICEID wDeviceID;
+  WORD wReserved0;
+  LPCSTR lpstrDeviceType;
+  LPCSTR lpstrElementName;
+  LPCSTR lpstrAlias;
+  DWORD dwStyle;
+  HWND hWndParent;
+  WORD wReserved1;
+} MCI_OVLY_OPEN_PARMS, *LPMCI_OVLY_OPEN_PARMS;
+#endif
+
+#ifdef _WIN32
+
 typedef struct tagMCI_OVLY_WINDOW_PARMSA {
   DWORD_PTR dwCallback;
   HWND hWnd;
@@ -818,6 +968,17 @@ __MINGW_TYPEDEF_AW(MCI_OVLY_WINDOW_PARMS)
 __MINGW_TYPEDEF_AW(PMCI_OVLY_WINDOW_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_OVLY_WINDOW_PARMS)
 
+#else
+typedef struct tagMCI_OVLY_WINDOW_PARMS {
+  DWORD dwCallback;
+  HWND hWnd;
+  WORD wReserved1;
+  UINT nCmdShow;
+  WORD wReserved2;
+  LPCSTR lpstrText;
+} MCI_OVLY_WINDOW_PARMS, *LPMCI_OVLY_WINDOW_PARMS;
+#endif
+
 typedef struct tagMCI_OVLY_RECT_PARMS {
   DWORD_PTR dwCallback;
 #ifdef MCI_USE_OFFEXT
@@ -827,6 +988,8 @@ typedef struct tagMCI_OVLY_RECT_PARMS {
   RECT rc;
 #endif
 } MCI_OVLY_RECT_PARMS, *PMCI_OVLY_RECT_PARMS, *LPMCI_OVLY_RECT_PARMS;
+
+#ifdef _WIN32
 
 typedef struct tagMCI_OVLY_SAVE_PARMSA {
   DWORD_PTR dwCallback;
@@ -844,6 +1007,16 @@ __MINGW_TYPEDEF_AW(MCI_OVLY_SAVE_PARMS)
 __MINGW_TYPEDEF_AW(PMCI_OVLY_SAVE_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_OVLY_SAVE_PARMS)
 
+#else
+typedef struct tagMCI_OVLY_SAVE_PARMS {
+  DWORD dwCallback;
+  LPCSTR lpfilename;
+  RECT rc;
+} MCI_OVLY_SAVE_PARMS, *LPMCI_OVLY_SAVE_PARMS;
+#endif
+
+#ifdef _WIN32
+
 typedef struct tagMCI_OVLY_LOAD_PARMSA {
   DWORD_PTR dwCallback;
   LPCSTR lpfilename;
@@ -859,6 +1032,14 @@ typedef struct tagMCI_OVLY_LOAD_PARMSW {
 __MINGW_TYPEDEF_AW(MCI_OVLY_LOAD_PARMS)
 __MINGW_TYPEDEF_AW(PMCI_OVLY_LOAD_PARMS)
 __MINGW_TYPEDEF_AW(LPMCI_OVLY_LOAD_PARMS)
+
+#else
+typedef struct tagMCI_OVLY_LOAD_PARMS {
+  DWORD dwCallback;
+  LPCSTR lpfilename;
+  RECT rc;
+} MCI_OVLY_LOAD_PARMS, *LPMCI_OVLY_LOAD_PARMS;
+#endif
 
 DWORD_PTR APIENTRY mciGetDriverData(MCIDEVICEID wDeviceID);
 UINT APIENTRY mciLoadCommandResource(HANDLE hInstance, LPCWSTR lpResName, UINT wType);

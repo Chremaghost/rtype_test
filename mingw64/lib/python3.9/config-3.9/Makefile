@@ -30,16 +30,16 @@ MODLIBS=           $(LOCALMODLIBS) $(BASEMODLIBS)
 VERSION=	3.9
 srcdir=		..
 VPATH=		..
-abs_srcdir=	/R/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw/build_win/..
-abs_builddir=	/R/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw/build_win
+abs_srcdir=	/r/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw/build_win/..
+abs_builddir=	/r/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw/build_win
 
 
-CC=		/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-gcc.exe
-CXX=		/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-g++.exe
+CC=		x86_64-w64-mingw32-gcc
+CXX=		x86_64-w64-mingw32-c++
 MAINCC=		$(CC)
 LINKCC=		$(PURIFY) $(MAINCC)
-AR=		/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-gcc-ar.exe
-WINDRES=	/d/Prog/winlibs64_stage/mingw64/bin/windres.exe
+AR=		ar
+WINDRES=	windres
 READELF=	readelf
 SOABI=		cpython-39
 LDVERSION=	$(VERSION)$(ABIFLAGS)
@@ -82,7 +82,7 @@ MAKESETUP=      $(srcdir)/Modules/makesetup
 OPT=		-DNDEBUG -g -fwrapv -O3 -Wall
 BASECFLAGS=	 -Wno-unused-result -Wsign-compare
 BASECPPFLAGS=	-IObjects -IInclude -IPython
-CONFIGURE_CFLAGS=	-D_POSIX -Wno-implicit-function-declaration -Wno-incompatible-pointer-types
+CONFIGURE_CFLAGS=	-D_POSIX -Wno-implicit-function-declaration
 # CFLAGS_NODIST is used for building the interpreter and stdlib C extensions.
 # Use it when a compiler flag should _not_ be part of the distutils CFLAGS
 # once Python is installed (Issue #21121).
@@ -132,7 +132,7 @@ MULTIARCH=
 MULTIARCH_CPPFLAGS = 
 
 # Install prefix for architecture-independent files
-prefix=		R:/winlibs64_stage/inst_cpython-mingw-3.9.7/share/python
+prefix=		R:/winlibs64_stage/30152.cpython-mingw/inst_cpython-mingw-3.9.7/share/python
 
 # Install prefix for architecture-dependent files
 exec_prefix=	${prefix}
@@ -141,10 +141,10 @@ exec_prefix=	${prefix}
 datarootdir=    ${prefix}/share
 
 # Locations needed for semi-native fixup of sysconfig.
-srcdir_b2h=		R:/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw
-VPATH_b2h=		R:/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw
-abs_srcdir_b2h=		R:/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw
-abs_builddir_b2h=	R:/winlibs64_stage/cpython-mingw-3.9.7/cpython-mingw/build_win
+srcdir_b2h=		R:/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw
+VPATH_b2h=		R:/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw
+abs_srcdir_b2h=		R:/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw
+abs_builddir_b2h=	R:/winlibs64_stage/30152.cpython-mingw/cpython-mingw-3.9.7/cpython-mingw/build_win
 prefix_b2h=		
 
 # Expanded directories
@@ -212,9 +212,9 @@ RUNSHARED=
 ENSUREPIP=      no
 
 # OpenSSL options for setup.py so sysconfig can pick up AC_SUBST() vars.
-OPENSSL_INCLUDES=-ID:Progwinlibs64_stagecustombuiltlibpkgconfig/../../include
+OPENSSL_INCLUDES=-ID:/Prog/winlibs64_stage/custombuilt/include
 OPENSSL_LIBS=-lssl -lcrypto
-OPENSSL_LDFLAGS=-LD:Progwinlibs64_stagecustombuiltlibpkgconfig/../../lib
+OPENSSL_LDFLAGS=-LD:/Prog/winlibs64_stage/custombuilt/lib
 
 # Default zoneinfo.TZPATH. Added here to expose it in sysconfig.get_config_var
 TZPATH=/usr/share/zoneinfo:/usr/lib/zoneinfo:/usr/share/lib/zoneinfo:/etc/zoneinfo
@@ -226,7 +226,7 @@ EXEMODE=	755
 FILEMODE=	644
 
 # configure script arguments
-CONFIG_ARGS=	 '--prefix=R:/winlibs64_stage/inst_cpython-mingw-3.9.7/share/python' '--build=x86_64-w64-mingw32' '--host=x86_64-w64-mingw32' '--enable-shared' '--enable-optimizations' '--disable-ipv6' '--with-system-expat' '--with-system-ffi' '--with-system-libmpdec' '--without-ensurepip' '--without-c-locale-coercion' '--enable-loadable-sqlite-extensions' '--with-ssl-default-suites=openssl' 'CFLAGS=-D_POSIX -Wno-implicit-function-declaration -Wno-incompatible-pointer-types' 'build_alias=x86_64-w64-mingw32' 'host_alias=x86_64-w64-mingw32' 'CC=/d/Prog/winlibs64_stage/mingw64/bin/x86_64-w64-mingw32-gcc.exe' 'PKG_CONFIG_PATH=/d/Prog/winlibs64_stage/custombuilt/lib/pkgconfig:/d/Prog/winlibs64_stage/custombuilt/share/pkgconfig'
+CONFIG_ARGS=	 '--prefix=R:/winlibs64_stage/30152.cpython-mingw/inst_cpython-mingw-3.9.7/share/python' '--build=x86_64-w64-mingw32' '--host=x86_64-w64-mingw32' '--enable-shared' '--enable-optimizations' '--disable-ipv6' '--with-system-expat' '--with-system-ffi' '--with-system-libmpdec' '--without-ensurepip' '--without-c-locale-coercion' '--enable-loadable-sqlite-extensions' '--with-ssl-default-suites=openssl' 'CFLAGS=-D_POSIX -Wno-implicit-function-declaration' 'build_alias=x86_64-w64-mingw32' 'host_alias=x86_64-w64-mingw32' 'PKG_CONFIG_PATH=/d/Prog/winlibs64_stage/custombuilt/lib/pkgconfig:/d/Prog/winlibs64_stage/custombuilt/share/pkgconfig'
 
 
 # Subdirectories with code

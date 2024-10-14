@@ -9,7 +9,9 @@
 #ifndef _INC_MMSYSCOM
 #define _INC_MMSYSCOM
 
+#ifdef _WIN32
 #include <pshpack1.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,6 +19,7 @@ extern "C" {
 
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
+#ifdef _WIN32
 #ifndef _WINMM_
 #define WINMMAPI DECLSPEC_IMPORT
 #else
@@ -24,11 +27,15 @@ extern "C" {
 #endif
 #define _loadds
 #define _huge
+#else
+#define WINMMAPI
+#endif
 
 #define MAXPNAMELEN 32
 #define MAXERRORLENGTH 256
 #define MAX_JOYSTICKOEMVXDNAME 260
 
+#if (WINVER <= 0x0400)
 #ifndef MM_MICROSOFT
 #define MM_MICROSOFT 1
 #endif
@@ -46,8 +53,13 @@ extern "C" {
 #define MM_MPU401_MIDIIN 11
 #define MM_PC_JOYSTICK 12
 #endif
+#endif
 
+#ifdef _WIN32
 typedef UINT MMVERSION;
+#else
+typedef UINT VERSION;
+#endif
 
 typedef UINT MMRESULT;
 #define _MMRESULT_
@@ -67,7 +79,9 @@ typedef struct mmtime_tag {
       BYTE frame;
       BYTE fps;
       BYTE dummy;
+#ifdef _WIN32
       BYTE pad[2];
+#endif
     } smpte;
     struct {
       DWORD songptrpos;
@@ -126,6 +140,7 @@ typedef struct mmtime_tag {
 #define MM_STREAM_DONE 0x3D6
 #define MM_STREAM_ERROR 0x3D7
 
+#if(WINVER >= 0x0400)
 #define MM_MOM_POSITIONCB 0x3CA
 
 #ifndef MM_MCISIGNAL
@@ -133,6 +148,8 @@ typedef struct mmtime_tag {
 #endif
 
 #define MM_MIM_MOREDATA 0x3CC
+
+#endif /* WINVER >= 0x0400 */
 
 #define MM_MIXM_LINE_CHANGE 0x3D0
 #define MM_MIXM_CONTROL_CHANGE 0x3D1
@@ -175,19 +192,25 @@ typedef struct mmtime_tag {
 #define MMSYSERR_MOREDATA (MMSYSERR_BASE + 21)
 #define MMSYSERR_LASTERROR (MMSYSERR_BASE + 21)
 
+#if (WINVER < 0x030a) || defined(_WIN32)
 DECLARE_HANDLE(HDRVR);
+#endif /* ifdef WINVER < 0x030a */
 
 #define CALLBACK_TYPEMASK __MSABI_LONG(0x00070000)
 #define CALLBACK_NULL __MSABI_LONG(0x00000000)
 #define CALLBACK_WINDOW __MSABI_LONG(0x00010000)
 #define CALLBACK_TASK __MSABI_LONG(0x00020000)
 #define CALLBACK_FUNCTION __MSABI_LONG(0x00030000)
+#ifdef _WIN32
 #define CALLBACK_THREAD (CALLBACK_TASK)
 #define CALLBACK_EVENT __MSABI_LONG(0x00050000)
+#endif
 typedef void (CALLBACK DRVCALLBACK)(HDRVR hdrvr, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2);
 
 typedef DRVCALLBACK *LPDRVCALLBACK;
+#ifdef _WIN32
 typedef DRVCALLBACK *PDRVCALLBACK;
+#endif
 
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
 
@@ -195,6 +218,8 @@ typedef DRVCALLBACK *PDRVCALLBACK;
 }
 #endif
 
+#ifdef _WIN32
 #include <poppack.h>
+#endif
 
 #endif /* _INC_MMSYSCOM */

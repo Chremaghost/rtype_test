@@ -26,10 +26,6 @@
 #ifndef __HIDUSAGE_H__
 #define __HIDUSAGE_H__
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #if WINAPI_FAMILY_PARTITION (WINAPI_PARTITION_DESKTOP)
 
 #define HID_USAGE_PAGE_UNDEFINED ((USAGE) 0x00)
@@ -226,9 +222,5 @@ extern "C" {
 
 typedef USHORT USAGE,*PUSAGE;
 
-#endif
-
-#ifdef __cplusplus
-}
 #endif
 #endif

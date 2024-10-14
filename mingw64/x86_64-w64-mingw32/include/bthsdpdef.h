@@ -10,22 +10,9 @@
 extern "C" {
 #endif
 
-typedef
-#ifdef __WIDL__
-  [switch_type(unsigned short)]
-#endif
-union SdpQueryUuidUnion {
-#ifdef __WIDL__
-  [case(SDP_ST_UUID128)]
-#endif
+typedef union SdpQueryUuidUnion {
   GUID   uuid128;
-#ifdef __WIDL__
-  [case(SDP_ST_UUID32)]
-#endif
   ULONG  uuid32;
-#ifdef __WIDL__
-  [case(SDP_ST_UUID16)]
-#endif
   USHORT uuid16;
 } SdpQueryUuidUnion;
 
@@ -35,9 +22,6 @@ typedef struct _SdpAttributeRange {
 } SdpAttributeRange;
 
 typedef struct _SdpQueryUuid {
-#ifdef __WIDL__
-  [switch_is(uuidType)]
-#endif
   SdpQueryUuidUnion u;
   USHORT            uuidType;
 } SdpQueryUuid;
@@ -75,21 +59,14 @@ typedef enum _SDP_SPECIFICTYPE {
 typedef struct _SDP_LARGE_INTEGER_16 {
   ULONGLONG LowPart;
   LONGLONG HighPart;
-} SDP_LARGE_INTEGER_16, *PSDP_LARGE_INTEGER_16, *LPSDP_LARGE_INTEGER_16;
+} SDP_LARGE_INTEGER_16;
 
 typedef struct _SDP_ULARGE_INTEGER_16 {
   ULONGLONG LowPart;
   ULONGLONG HighPart;
-} SDP_ULARGE_INTEGER_16, *PSDP_ULARGE_INTEGER_16, *LPSDP_ULARGE_INTEGER_16;
+} SDP_ULARGE_INTEGER_16;
 
-typedef enum NodeContainerType {
-  NodeContainerTypeSequence,
-  NodeContainerTypeAlternative
-} NodeContainerType;
-
-typedef USHORT SDP_ERROR, *PSDP_ERROR;
-
-typedef struct _SDP_ELEMENT_DATA {
+typedef struct _SPD_ELEMENT_DATA {
   SDP_TYPE         type;
   SDP_SPECIFICTYPE specificType;
   __C89_NAMELESS union {

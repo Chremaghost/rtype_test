@@ -48,17 +48,6 @@ set_target_properties(LLVMTableGenGlobalISel PROPERTIES
 list(APPEND _cmake_import_check_targets LLVMTableGenGlobalISel )
 list(APPEND _cmake_import_check_files_for_LLVMTableGenGlobalISel "${_IMPORT_PREFIX}/lib/libLLVMTableGenGlobalISel.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMTableGenGlobalISel.dll" )
 
-# Import target "LLVMTableGenCommon" for configuration "MinSizeRel"
-set_property(TARGET LLVMTableGenCommon APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
-set_target_properties(LLVMTableGenCommon PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMTableGenCommon.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMSupport;LLVMTableGen"
-  IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMTableGenCommon.dll"
-  )
-
-list(APPEND _cmake_import_check_targets LLVMTableGenCommon )
-list(APPEND _cmake_import_check_files_for_LLVMTableGenCommon "${_IMPORT_PREFIX}/lib/libLLVMTableGenCommon.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMTableGenCommon.dll" )
-
 # Import target "llvm-tblgen" for configuration "MinSizeRel"
 set_property(TARGET llvm-tblgen APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(llvm-tblgen PROPERTIES
@@ -72,7 +61,7 @@ list(APPEND _cmake_import_check_files_for_llvm-tblgen "${_IMPORT_PREFIX}/bin/llv
 set_property(TARGET LLVMCore APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMCore PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMCore.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMBinaryFormat;LLVMDemangle;LLVMRemarks;LLVMSupport;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMBinaryFormat;LLVMRemarks;LLVMSupport;LLVMTargetParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMCore.dll"
   )
 
@@ -94,7 +83,7 @@ list(APPEND _cmake_import_check_files_for_LLVMFuzzerCLI "${_IMPORT_PREFIX}/lib/l
 set_property(TARGET LLVMFuzzMutate APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMFuzzMutate PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMFuzzMutate.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMBitReader;LLVMBitWriter;LLVMCore;LLVMScalarOpts;LLVMSupport;LLVMTargetParser;LLVMTransformUtils"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMBitReader;LLVMBitWriter;LLVMCore;LLVMScalarOpts;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMFuzzMutate.dll"
   )
 
@@ -144,22 +133,11 @@ set_target_properties(LLVMIRReader PROPERTIES
 list(APPEND _cmake_import_check_targets LLVMIRReader )
 list(APPEND _cmake_import_check_files_for_LLVMIRReader "${_IMPORT_PREFIX}/lib/libLLVMIRReader.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMIRReader.dll" )
 
-# Import target "LLVMCodeGenTypes" for configuration "MinSizeRel"
-set_property(TARGET LLVMCodeGenTypes APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
-set_target_properties(LLVMCodeGenTypes PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMCodeGenTypes.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMSupport"
-  IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMCodeGenTypes.dll"
-  )
-
-list(APPEND _cmake_import_check_targets LLVMCodeGenTypes )
-list(APPEND _cmake_import_check_files_for_LLVMCodeGenTypes "${_IMPORT_PREFIX}/lib/libLLVMCodeGenTypes.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMCodeGenTypes.dll" )
-
 # Import target "LLVMCodeGen" for configuration "MinSizeRel"
 set_property(TARGET LLVMCodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMCodeGen PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMCodeGen.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMBitReader;LLVMBitWriter;LLVMCodeGenTypes;LLVMCore;LLVMMC;LLVMObjCARCOpts;LLVMProfileData;LLVMScalarOpts;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMBitReader;LLVMBitWriter;LLVMCore;LLVMMC;LLVMObjCARCOpts;LLVMProfileData;LLVMScalarOpts;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMCodeGen.dll"
   )
 
@@ -170,7 +148,7 @@ list(APPEND _cmake_import_check_files_for_LLVMCodeGen "${_IMPORT_PREFIX}/lib/lib
 set_property(TARGET LLVMSelectionDAG APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMSelectionDAG PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMSelectionDAG.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMMC;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMCodeGen;LLVMCore;LLVMMC;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMSelectionDAG.dll"
   )
 
@@ -181,7 +159,7 @@ list(APPEND _cmake_import_check_files_for_LLVMSelectionDAG "${_IMPORT_PREFIX}/li
 set_property(TARGET LLVMAsmPrinter APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMAsmPrinter PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMAsmPrinter.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMBinaryFormat;LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMDebugInfoCodeView;LLVMDebugInfoDWARF;LLVMMC;LLVMMCParser;LLVMRemarks;LLVMSupport;LLVMTarget;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMBinaryFormat;LLVMCodeGen;LLVMCore;LLVMDebugInfoCodeView;LLVMDebugInfoDWARF;LLVMDebugInfoMSF;LLVMMC;LLVMMCParser;LLVMRemarks;LLVMSupport;LLVMTarget;LLVMTargetParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMAsmPrinter.dll"
   )
 
@@ -192,7 +170,7 @@ list(APPEND _cmake_import_check_files_for_LLVMAsmPrinter "${_IMPORT_PREFIX}/lib/
 set_property(TARGET LLVMMIRParser APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMMIRParser PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMMIRParser.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAsmParser;LLVMBinaryFormat;LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMMC;LLVMSupport;LLVMTarget"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAsmParser;LLVMBinaryFormat;LLVMCodeGen;LLVMCore;LLVMMC;LLVMSupport;LLVMTarget"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMMIRParser.dll"
   )
 
@@ -203,7 +181,7 @@ list(APPEND _cmake_import_check_files_for_LLVMMIRParser "${_IMPORT_PREFIX}/lib/l
 set_property(TARGET LLVMGlobalISel APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMGlobalISel PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMGlobalISel.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMMC;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTransformUtils"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMCodeGen;LLVMCore;LLVMMC;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTransformUtils"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMGlobalISel.dll"
   )
 
@@ -258,29 +236,18 @@ list(APPEND _cmake_import_check_files_for_LLVMBitstreamReader "${_IMPORT_PREFIX}
 set_property(TARGET LLVMDWARFLinker APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMDWARFLinker PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMDWARFLinker.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMBinaryFormat;LLVMCodeGen;LLVMDebugInfoDWARF;LLVMObject;LLVMSupport"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMBinaryFormat;LLVMDebugInfoDWARF;LLVMAsmPrinter;LLVMCodeGen;LLVMMC;LLVMObject;LLVMSupport;LLVMTargetParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMDWARFLinker.dll"
   )
 
 list(APPEND _cmake_import_check_targets LLVMDWARFLinker )
 list(APPEND _cmake_import_check_files_for_LLVMDWARFLinker "${_IMPORT_PREFIX}/lib/libLLVMDWARFLinker.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMDWARFLinker.dll" )
 
-# Import target "LLVMDWARFLinkerClassic" for configuration "MinSizeRel"
-set_property(TARGET LLVMDWARFLinkerClassic APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
-set_target_properties(LLVMDWARFLinkerClassic PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMDWARFLinkerClassic.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAsmPrinter;LLVMBinaryFormat;LLVMCodeGen;LLVMCodeGenTypes;LLVMDebugInfoDWARF;LLVMDWARFLinker;LLVMMC;LLVMObject;LLVMSupport;LLVMTargetParser"
-  IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMDWARFLinkerClassic.dll"
-  )
-
-list(APPEND _cmake_import_check_targets LLVMDWARFLinkerClassic )
-list(APPEND _cmake_import_check_files_for_LLVMDWARFLinkerClassic "${_IMPORT_PREFIX}/lib/libLLVMDWARFLinkerClassic.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMDWARFLinkerClassic.dll" )
-
 # Import target "LLVMDWARFLinkerParallel" for configuration "MinSizeRel"
 set_property(TARGET LLVMDWARFLinkerParallel APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMDWARFLinkerParallel PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMDWARFLinkerParallel.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAsmPrinter;LLVMBinaryFormat;LLVMCodeGen;LLVMDebugInfoDWARF;LLVMDWARFLinker;LLVMMC;LLVMObject;LLVMSupport;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMBinaryFormat;LLVMDebugInfoDWARF;LLVMAsmPrinter;LLVMCodeGen;LLVMMC;LLVMObject;LLVMSupport"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMDWARFLinkerParallel.dll"
   )
 
@@ -297,17 +264,6 @@ set_target_properties(LLVMExtensions PROPERTIES
 
 list(APPEND _cmake_import_check_targets LLVMExtensions )
 list(APPEND _cmake_import_check_files_for_LLVMExtensions "${_IMPORT_PREFIX}/lib/libLLVMExtensions.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMExtensions.dll" )
-
-# Import target "LLVMFrontendDriver" for configuration "MinSizeRel"
-set_property(TARGET LLVMFrontendDriver APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
-set_target_properties(LLVMFrontendDriver PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMFrontendDriver.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMCore;LLVMSupport;LLVMAnalysis"
-  IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMFrontendDriver.dll"
-  )
-
-list(APPEND _cmake_import_check_targets LLVMFrontendDriver )
-list(APPEND _cmake_import_check_files_for_LLVMFrontendDriver "${_IMPORT_PREFIX}/lib/libLLVMFrontendDriver.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMFrontendDriver.dll" )
 
 # Import target "LLVMFrontendHLSL" for configuration "MinSizeRel"
 set_property(TARGET LLVMFrontendHLSL APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
@@ -334,23 +290,12 @@ list(APPEND _cmake_import_check_files_for_LLVMFrontendOpenACC "${_IMPORT_PREFIX}
 set_property(TARGET LLVMFrontendOpenMP APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMFrontendOpenMP PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMFrontendOpenMP.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMCore;LLVMSupport;LLVMTargetParser;LLVMTransformUtils;LLVMAnalysis;LLVMMC;LLVMScalarOpts;LLVMBitReader;LLVMFrontendOffloading"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMCore;LLVMSupport;LLVMTargetParser;LLVMTransformUtils;LLVMAnalysis;LLVMMC;LLVMScalarOpts"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMFrontendOpenMP.dll"
   )
 
 list(APPEND _cmake_import_check_targets LLVMFrontendOpenMP )
 list(APPEND _cmake_import_check_files_for_LLVMFrontendOpenMP "${_IMPORT_PREFIX}/lib/libLLVMFrontendOpenMP.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMFrontendOpenMP.dll" )
-
-# Import target "LLVMFrontendOffloading" for configuration "MinSizeRel"
-set_property(TARGET LLVMFrontendOffloading APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
-set_target_properties(LLVMFrontendOffloading PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMFrontendOffloading.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMCore;LLVMBinaryFormat;LLVMSupport;LLVMTransformUtils;LLVMTargetParser"
-  IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMFrontendOffloading.dll"
-  )
-
-list(APPEND _cmake_import_check_targets LLVMFrontendOffloading )
-list(APPEND _cmake_import_check_files_for_LLVMFrontendOffloading "${_IMPORT_PREFIX}/lib/libLLVMFrontendOffloading.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMFrontendOffloading.dll" )
 
 # Import target "LLVMTransformUtils" for configuration "MinSizeRel"
 set_property(TARGET LLVMTransformUtils APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
@@ -444,7 +389,7 @@ list(APPEND _cmake_import_check_files_for_LLVMObjCARCOpts "${_IMPORT_PREFIX}/lib
 set_property(TARGET LLVMCoroutines APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMCoroutines PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMCoroutines.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMCore;LLVMipo;LLVMScalarOpts;LLVMSupport;LLVMTransformUtils;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMCore;LLVMipo;LLVMScalarOpts;LLVMSupport;LLVMTransformUtils"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMCoroutines.dll"
   )
 
@@ -461,17 +406,6 @@ set_target_properties(LLVMCFGuard PROPERTIES
 
 list(APPEND _cmake_import_check_targets LLVMCFGuard )
 list(APPEND _cmake_import_check_files_for_LLVMCFGuard "${_IMPORT_PREFIX}/lib/libLLVMCFGuard.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMCFGuard.dll" )
-
-# Import target "LLVMHipStdPar" for configuration "MinSizeRel"
-set_property(TARGET LLVMHipStdPar APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
-set_target_properties(LLVMHipStdPar PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMHipStdPar.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMCore;LLVMSupport;LLVMTransformUtils"
-  IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMHipStdPar.dll"
-  )
-
-list(APPEND _cmake_import_check_targets LLVMHipStdPar )
-list(APPEND _cmake_import_check_files_for_LLVMHipStdPar "${_IMPORT_PREFIX}/lib/libLLVMHipStdPar.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMHipStdPar.dll" )
 
 # Import target "LLVMLinker" for configuration "MinSizeRel"
 set_property(TARGET LLVMLinker APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
@@ -499,7 +433,7 @@ list(APPEND _cmake_import_check_files_for_LLVMAnalysis "${_IMPORT_PREFIX}/lib/li
 set_property(TARGET LLVMLTO APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMLTO PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMLTO.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAggressiveInstCombine;LLVMAnalysis;LLVMBinaryFormat;LLVMBitReader;LLVMBitWriter;LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMExtensions;LLVMipo;LLVMInstCombine;LLVMInstrumentation;LLVMLinker;LLVMMC;LLVMObjCARCOpts;LLVMObject;LLVMPasses;LLVMRemarks;LLVMScalarOpts;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAggressiveInstCombine;LLVMAnalysis;LLVMBinaryFormat;LLVMBitReader;LLVMBitWriter;LLVMCodeGen;LLVMCore;LLVMExtensions;LLVMipo;LLVMInstCombine;LLVMInstrumentation;LLVMLinker;LLVMMC;LLVMObjCARCOpts;LLVMObject;LLVMPasses;LLVMRemarks;LLVMScalarOpts;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMLTO.dll"
   )
 
@@ -642,7 +576,7 @@ list(APPEND _cmake_import_check_files_for_LLVMDebugInfoGSYM "${_IMPORT_PREFIX}/l
 set_property(TARGET LLVMDebugInfoLogicalView APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMDebugInfoLogicalView PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMDebugInfoLogicalView.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMBinaryFormat;LLVMDemangle;LLVMObject;LLVMMC;LLVMSupport;LLVMTargetParser;LLVMDebugInfoDWARF;LLVMDebugInfoCodeView;LLVMDebugInfoPDB"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMBinaryFormat;LLVMObject;LLVMMC;LLVMSupport;LLVMTargetParser;LLVMDebugInfoDWARF"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMDebugInfoLogicalView.dll"
   )
 
@@ -686,29 +620,18 @@ list(APPEND _cmake_import_check_files_for_LLVMDebugInfoPDB "${_IMPORT_PREFIX}/li
 set_property(TARGET LLVMSymbolize APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMSymbolize PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMSymbolize.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMDebugInfoDWARF;LLVMDebugInfoPDB;LLVMDebugInfoBTF;LLVMObject;LLVMSupport;LLVMDemangle;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMDebugInfoDWARF;LLVMDebugInfoPDB;LLVMObject;LLVMSupport;LLVMDemangle;LLVMTargetParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMSymbolize.dll"
   )
 
 list(APPEND _cmake_import_check_targets LLVMSymbolize )
 list(APPEND _cmake_import_check_files_for_LLVMSymbolize "${_IMPORT_PREFIX}/lib/libLLVMSymbolize.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMSymbolize.dll" )
 
-# Import target "LLVMDebugInfoBTF" for configuration "MinSizeRel"
-set_property(TARGET LLVMDebugInfoBTF APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
-set_target_properties(LLVMDebugInfoBTF PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMDebugInfoBTF.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMSupport"
-  IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMDebugInfoBTF.dll"
-  )
-
-list(APPEND _cmake_import_check_targets LLVMDebugInfoBTF )
-list(APPEND _cmake_import_check_files_for_LLVMDebugInfoBTF "${_IMPORT_PREFIX}/lib/libLLVMDebugInfoBTF.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMDebugInfoBTF.dll" )
-
 # Import target "LLVMDWP" for configuration "MinSizeRel"
 set_property(TARGET LLVMDWP APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMDWP PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMDWP.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMDebugInfoDWARF;LLVMMC;LLVMObject;LLVMSupport"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMDebugInfoDWARF;LLVMMC;LLVMObject;LLVMSupport;LLVMTarget"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMDWP.dll"
   )
 
@@ -763,23 +686,12 @@ list(APPEND _cmake_import_check_files_for_LLVMMCJIT "${_IMPORT_PREFIX}/lib/libLL
 set_property(TARGET LLVMOrcJIT APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMOrcJIT PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMOrcJIT.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMBitReader;LLVMBitWriter;LLVMPasses;LLVMCore;LLVMExecutionEngine;LLVMJITLink;LLVMObject;LLVMOrcShared;LLVMOrcTargetProcess;LLVMWindowsDriver;LLVMMC;LLVMRuntimeDyld;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMBitReader;LLVMBitWriter;LLVMPasses;LLVMCore;LLVMExecutionEngine;LLVMJITLink;LLVMObject;LLVMOrcShared;LLVMOrcTargetProcess;LLVMWindowsDriver;LLVMMC;LLVMMCDisassembler;LLVMRuntimeDyld;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMOrcJIT.dll"
   )
 
 list(APPEND _cmake_import_check_targets LLVMOrcJIT )
 list(APPEND _cmake_import_check_files_for_LLVMOrcJIT "${_IMPORT_PREFIX}/lib/libLLVMOrcJIT.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMOrcJIT.dll" )
-
-# Import target "LLVMOrcDebugging" for configuration "MinSizeRel"
-set_property(TARGET LLVMOrcDebugging APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
-set_target_properties(LLVMOrcDebugging PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMOrcDebugging.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMDebugInfoDWARF;LLVMJITLink;LLVMOrcJIT;LLVMOrcShared;LLVMSupport;LLVMTargetParser"
-  IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMOrcDebugging.dll"
-  )
-
-list(APPEND _cmake_import_check_targets LLVMOrcDebugging )
-list(APPEND _cmake_import_check_files_for_LLVMOrcDebugging "${_IMPORT_PREFIX}/lib/libLLVMOrcDebugging.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMOrcDebugging.dll" )
 
 # Import target "LLVMOrcShared" for configuration "MinSizeRel"
 set_property(TARGET LLVMOrcShared APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
@@ -829,7 +741,7 @@ list(APPEND _cmake_import_check_files_for_LLVMTarget "${_IMPORT_PREFIX}/lib/libL
 set_property(TARGET LLVMX86CodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMX86CodeGen PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMX86CodeGen.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMAsmPrinter;LLVMCFGuard;LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMGlobalISel;LLVMIRPrinter;LLVMInstrumentation;LLVMMC;LLVMProfileData;LLVMScalarOpts;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils;LLVMX86Desc;LLVMX86Info"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMAsmPrinter;LLVMCodeGen;LLVMCore;LLVMInstrumentation;LLVMMC;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils;LLVMX86Desc;LLVMX86Info;LLVMGlobalISel;LLVMProfileData;LLVMCFGuard"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMX86CodeGen.dll"
   )
 
@@ -862,7 +774,7 @@ list(APPEND _cmake_import_check_files_for_LLVMX86Disassembler "${_IMPORT_PREFIX}
 set_property(TARGET LLVMX86TargetMCA APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMX86TargetMCA PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMX86TargetMCA.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMCodeGenTypes;LLVMMC;LLVMMCA;LLVMMCParser;LLVMSupport;LLVMTargetParser;LLVMX86Desc;LLVMX86Info"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMMC;LLVMMCParser;LLVMX86Desc;LLVMX86Info;LLVMSupport;LLVMTargetParser;LLVMMCA"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMX86TargetMCA.dll"
   )
 
@@ -873,7 +785,7 @@ list(APPEND _cmake_import_check_files_for_LLVMX86TargetMCA "${_IMPORT_PREFIX}/li
 set_property(TARGET LLVMX86Desc APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMX86Desc PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMX86Desc.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMBinaryFormat;LLVMCodeGenTypes;LLVMMC;LLVMMCDisassembler;LLVMSupport;LLVMTargetParser;LLVMX86Info"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMMC;LLVMMCDisassembler;LLVMSupport;LLVMTargetParser;LLVMX86Info;LLVMBinaryFormat"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMX86Desc.dll"
   )
 
@@ -895,7 +807,7 @@ list(APPEND _cmake_import_check_files_for_LLVMX86Info "${_IMPORT_PREFIX}/lib/lib
 set_property(TARGET LLVMARMCodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMARMCodeGen PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMARMCodeGen.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMARMDesc;LLVMARMInfo;LLVMARMUtils;LLVMAnalysis;LLVMAsmPrinter;LLVMCFGuard;LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMGlobalISel;LLVMipo;LLVMMC;LLVMScalarOpts;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMARMDesc;LLVMARMInfo;LLVMAnalysis;LLVMAsmPrinter;LLVMCodeGen;LLVMCore;LLVMipo;LLVMMC;LLVMScalarOpts;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMGlobalISel;LLVMARMUtils;LLVMTransformUtils;LLVMCFGuard"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMARMCodeGen.dll"
   )
 
@@ -906,7 +818,7 @@ list(APPEND _cmake_import_check_files_for_LLVMARMCodeGen "${_IMPORT_PREFIX}/lib/
 set_property(TARGET LLVMARMAsmParser APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMARMAsmParser PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMARMAsmParser.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMARMDesc;LLVMARMInfo;LLVMARMUtils;LLVMCodeGenTypes;LLVMMC;LLVMMCParser;LLVMSupport;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMARMDesc;LLVMARMInfo;LLVMMC;LLVMMCParser;LLVMSupport;LLVMTargetParser;LLVMARMUtils"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMARMAsmParser.dll"
   )
 
@@ -917,7 +829,7 @@ list(APPEND _cmake_import_check_files_for_LLVMARMAsmParser "${_IMPORT_PREFIX}/li
 set_property(TARGET LLVMARMDisassembler APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMARMDisassembler PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMARMDisassembler.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMARMDesc;LLVMARMInfo;LLVMARMUtils;LLVMCodeGenTypes;LLVMMC;LLVMMCDisassembler;LLVMSupport"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMARMDesc;LLVMARMInfo;LLVMMCDisassembler;LLVMMC;LLVMSupport;LLVMARMUtils"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMARMDisassembler.dll"
   )
 
@@ -928,7 +840,7 @@ list(APPEND _cmake_import_check_files_for_LLVMARMDisassembler "${_IMPORT_PREFIX}
 set_property(TARGET LLVMARMDesc APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMARMDesc PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMARMDesc.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMARMInfo;LLVMARMUtils;LLVMBinaryFormat;LLVMCodeGenTypes;LLVMMC;LLVMMCDisassembler;LLVMSupport;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMARMInfo;LLVMARMUtils;LLVMMC;LLVMMCDisassembler;LLVMSupport;LLVMBinaryFormat;LLVMTargetParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMARMDesc.dll"
   )
 
@@ -961,7 +873,7 @@ list(APPEND _cmake_import_check_files_for_LLVMARMUtils "${_IMPORT_PREFIX}/lib/li
 set_property(TARGET LLVMAArch64CodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMAArch64CodeGen PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMAArch64CodeGen.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAArch64Desc;LLVMAArch64Info;LLVMAArch64Utils;LLVMAnalysis;LLVMAsmPrinter;LLVMCFGuard;LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMGlobalISel;LLVMMC;LLVMScalarOpts;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAArch64Desc;LLVMAArch64Info;LLVMAArch64Utils;LLVMAnalysis;LLVMAsmPrinter;LLVMCodeGen;LLVMCore;LLVMMC;LLVMScalarOpts;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils;LLVMGlobalISel;LLVMCFGuard"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMAArch64CodeGen.dll"
   )
 
@@ -972,7 +884,7 @@ list(APPEND _cmake_import_check_files_for_LLVMAArch64CodeGen "${_IMPORT_PREFIX}/
 set_property(TARGET LLVMAArch64AsmParser APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMAArch64AsmParser PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMAArch64AsmParser.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAArch64Desc;LLVMAArch64Info;LLVMAArch64Utils;LLVMCodeGenTypes;LLVMMC;LLVMMCParser;LLVMSupport;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAArch64Desc;LLVMAArch64Info;LLVMAArch64Utils;LLVMMC;LLVMMCParser;LLVMSupport;LLVMTargetParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMAArch64AsmParser.dll"
   )
 
@@ -994,7 +906,7 @@ list(APPEND _cmake_import_check_files_for_LLVMAArch64Disassembler "${_IMPORT_PRE
 set_property(TARGET LLVMAArch64Desc APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMAArch64Desc PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMAArch64Desc.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAArch64Info;LLVMAArch64Utils;LLVMBinaryFormat;LLVMCodeGenTypes;LLVMMC;LLVMSupport;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAArch64Info;LLVMAArch64Utils;LLVMMC;LLVMBinaryFormat;LLVMSupport;LLVMTargetParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMAArch64Desc.dll"
   )
 
@@ -1027,7 +939,7 @@ list(APPEND _cmake_import_check_files_for_LLVMAArch64Utils "${_IMPORT_PREFIX}/li
 set_property(TARGET LLVMNVPTXCodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMNVPTXCodeGen PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMNVPTXCodeGen.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMAsmPrinter;LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMipo;LLVMMC;LLVMNVPTXDesc;LLVMNVPTXInfo;LLVMScalarOpts;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils;LLVMVectorize"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMAsmPrinter;LLVMCodeGen;LLVMCore;LLVMipo;LLVMMC;LLVMNVPTXDesc;LLVMNVPTXInfo;LLVMScalarOpts;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils;LLVMVectorize"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMNVPTXCodeGen.dll"
   )
 
@@ -1060,7 +972,7 @@ list(APPEND _cmake_import_check_files_for_LLVMNVPTXInfo "${_IMPORT_PREFIX}/lib/l
 set_property(TARGET LLVMAMDGPUCodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMAMDGPUCodeGen PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMAMDGPUCodeGen.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAMDGPUDesc;LLVMAMDGPUInfo;LLVMAMDGPUUtils;LLVMAnalysis;LLVMAsmPrinter;LLVMBinaryFormat;LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMGlobalISel;LLVMHipStdPar;LLVMipo;LLVMMC;LLVMMIRParser;LLVMPasses;LLVMScalarOpts;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils;LLVMVectorize"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMAsmPrinter;LLVMCodeGen;LLVMCore;LLVMipo;LLVMMC;LLVMPasses;LLVMAMDGPUDesc;LLVMAMDGPUInfo;LLVMAMDGPUUtils;LLVMScalarOpts;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils;LLVMVectorize;LLVMGlobalISel;LLVMBinaryFormat;LLVMMIRParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMAMDGPUCodeGen.dll"
   )
 
@@ -1071,7 +983,7 @@ list(APPEND _cmake_import_check_files_for_LLVMAMDGPUCodeGen "${_IMPORT_PREFIX}/l
 set_property(TARGET LLVMAMDGPUAsmParser APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMAMDGPUAsmParser PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMAMDGPUAsmParser.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAMDGPUDesc;LLVMAMDGPUInfo;LLVMAMDGPUUtils;LLVMCodeGenTypes;LLVMMC;LLVMMCParser;LLVMSupport;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMMC;LLVMMCParser;LLVMAMDGPUDesc;LLVMAMDGPUInfo;LLVMAMDGPUUtils;LLVMSupport;LLVMTargetParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMAMDGPUAsmParser.dll"
   )
 
@@ -1082,7 +994,7 @@ list(APPEND _cmake_import_check_files_for_LLVMAMDGPUAsmParser "${_IMPORT_PREFIX}
 set_property(TARGET LLVMAMDGPUDisassembler APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMAMDGPUDisassembler PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMAMDGPUDisassembler.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAMDGPUDesc;LLVMAMDGPUInfo;LLVMAMDGPUUtils;LLVMCodeGenTypes;LLVMMC;LLVMMCDisassembler;LLVMSupport"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAMDGPUDesc;LLVMAMDGPUInfo;LLVMAMDGPUUtils;LLVMMC;LLVMMCDisassembler;LLVMSupport"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMAMDGPUDisassembler.dll"
   )
 
@@ -1093,7 +1005,7 @@ list(APPEND _cmake_import_check_files_for_LLVMAMDGPUDisassembler "${_IMPORT_PREF
 set_property(TARGET LLVMAMDGPUTargetMCA APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMAMDGPUTargetMCA PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMAMDGPUTargetMCA.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAMDGPUDesc;LLVMAMDGPUInfo;LLVMAMDGPUUtils;LLVMCodeGenTypes;LLVMMC;LLVMMCA;LLVMMCParser;LLVMSupport;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMMC;LLVMMCParser;LLVMAMDGPUDesc;LLVMAMDGPUInfo;LLVMAMDGPUUtils;LLVMSupport;LLVMTargetParser;LLVMMCA"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMAMDGPUTargetMCA.dll"
   )
 
@@ -1104,7 +1016,7 @@ list(APPEND _cmake_import_check_files_for_LLVMAMDGPUTargetMCA "${_IMPORT_PREFIX}
 set_property(TARGET LLVMAMDGPUDesc APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMAMDGPUDesc PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMAMDGPUDesc.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAMDGPUInfo;LLVMAMDGPUUtils;LLVMBinaryFormat;LLVMCodeGenTypes;LLVMCore;LLVMMC;LLVMSupport;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMCore;LLVMMC;LLVMAMDGPUInfo;LLVMAMDGPUUtils;LLVMSupport;LLVMBinaryFormat;LLVMTargetParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMAMDGPUDesc.dll"
   )
 
@@ -1126,7 +1038,7 @@ list(APPEND _cmake_import_check_files_for_LLVMAMDGPUInfo "${_IMPORT_PREFIX}/lib/
 set_property(TARGET LLVMAMDGPUUtils APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMAMDGPUUtils PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMAMDGPUUtils.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMBinaryFormat;LLVMCodeGenTypes;LLVMCore;LLVMMC;LLVMSupport;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMCore;LLVMMC;LLVMBinaryFormat;LLVMSupport;LLVMTargetParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMAMDGPUUtils.dll"
   )
 
@@ -1137,7 +1049,7 @@ list(APPEND _cmake_import_check_files_for_LLVMAMDGPUUtils "${_IMPORT_PREFIX}/lib
 set_property(TARGET LLVMWebAssemblyCodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMWebAssemblyCodeGen PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMWebAssemblyCodeGen.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMAsmPrinter;LLVMBinaryFormat;LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMMC;LLVMScalarOpts;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils;LLVMWebAssemblyDesc;LLVMWebAssemblyInfo;LLVMWebAssemblyUtils"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMAsmPrinter;LLVMBinaryFormat;LLVMCodeGen;LLVMCore;LLVMMC;LLVMScalarOpts;LLVMSelectionDAG;LLVMSupport;LLVMTarget;LLVMTargetParser;LLVMTransformUtils;LLVMWebAssemblyDesc;LLVMWebAssemblyInfo;LLVMWebAssemblyUtils"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMWebAssemblyCodeGen.dll"
   )
 
@@ -1148,7 +1060,7 @@ list(APPEND _cmake_import_check_files_for_LLVMWebAssemblyCodeGen "${_IMPORT_PREF
 set_property(TARGET LLVMWebAssemblyAsmParser APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMWebAssemblyAsmParser PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMWebAssemblyAsmParser.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMCodeGenTypes;LLVMMC;LLVMMCParser;LLVMSupport;LLVMTargetParser;LLVMWebAssemblyDesc;LLVMWebAssemblyInfo"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMMC;LLVMMCParser;LLVMWebAssemblyInfo;LLVMWebAssemblyUtils;LLVMSupport;LLVMTargetParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMWebAssemblyAsmParser.dll"
   )
 
@@ -1159,7 +1071,7 @@ list(APPEND _cmake_import_check_files_for_LLVMWebAssemblyAsmParser "${_IMPORT_PR
 set_property(TARGET LLVMWebAssemblyDisassembler APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMWebAssemblyDisassembler PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMWebAssemblyDisassembler.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMCodeGenTypes;LLVMMC;LLVMMCDisassembler;LLVMSupport;LLVMWebAssemblyDesc;LLVMWebAssemblyInfo"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMWebAssemblyDesc;LLVMMCDisassembler;LLVMWebAssemblyInfo;LLVMWebAssemblyUtils;LLVMSupport;LLVMMC"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMWebAssemblyDisassembler.dll"
   )
 
@@ -1170,7 +1082,7 @@ list(APPEND _cmake_import_check_files_for_LLVMWebAssemblyDisassembler "${_IMPORT
 set_property(TARGET LLVMWebAssemblyDesc APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMWebAssemblyDesc PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMWebAssemblyDesc.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMCodeGenTypes;LLVMMC;LLVMSupport;LLVMTargetParser;LLVMWebAssemblyInfo"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMMC;LLVMSupport;LLVMTargetParser;LLVMWebAssemblyInfo;LLVMWebAssemblyUtils"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMWebAssemblyDesc.dll"
   )
 
@@ -1192,7 +1104,7 @@ list(APPEND _cmake_import_check_files_for_LLVMWebAssemblyInfo "${_IMPORT_PREFIX}
 set_property(TARGET LLVMWebAssemblyUtils APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMWebAssemblyUtils PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMWebAssemblyUtils.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMMC;LLVMSupport;LLVMWebAssemblyDesc"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMCodeGen;LLVMCore;LLVMMC;LLVMSupport"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMWebAssemblyUtils.dll"
   )
 
@@ -1247,7 +1159,7 @@ list(APPEND _cmake_import_check_files_for_LLVMCoverage "${_IMPORT_PREFIX}/lib/li
 set_property(TARGET LLVMPasses APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMPasses PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMPasses.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAggressiveInstCombine;LLVMAnalysis;LLVMCFGuard;LLVMCodeGen;LLVMCore;LLVMCoroutines;LLVMHipStdPar;LLVMipo;LLVMInstCombine;LLVMIRPrinter;LLVMObjCARCOpts;LLVMScalarOpts;LLVMSupport;LLVMTarget;LLVMTransformUtils;LLVMVectorize;LLVMInstrumentation"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAggressiveInstCombine;LLVMAnalysis;LLVMCodeGen;LLVMCore;LLVMCoroutines;LLVMipo;LLVMInstCombine;LLVMIRPrinter;LLVMObjCARCOpts;LLVMScalarOpts;LLVMSupport;LLVMTarget;LLVMTransformUtils;LLVMVectorize;LLVMInstrumentation"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMPasses.dll"
   )
 
@@ -1275,17 +1187,6 @@ set_target_properties(LLVMTextAPI PROPERTIES
 
 list(APPEND _cmake_import_check_targets LLVMTextAPI )
 list(APPEND _cmake_import_check_files_for_LLVMTextAPI "${_IMPORT_PREFIX}/lib/libLLVMTextAPI.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMTextAPI.dll" )
-
-# Import target "LLVMTextAPIBinaryReader" for configuration "MinSizeRel"
-set_property(TARGET LLVMTextAPIBinaryReader APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
-set_target_properties(LLVMTextAPIBinaryReader PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMTextAPIBinaryReader.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMSupport;LLVMObject;LLVMTextAPI;LLVMTargetParser"
-  IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMTextAPIBinaryReader.dll"
-  )
-
-list(APPEND _cmake_import_check_targets LLVMTextAPIBinaryReader )
-list(APPEND _cmake_import_check_files_for_LLVMTextAPIBinaryReader "${_IMPORT_PREFIX}/lib/libLLVMTextAPIBinaryReader.dll.a" "${_IMPORT_PREFIX}/bin/libLLVMTextAPIBinaryReader.dll" )
 
 # Import target "LLVMDlltoolDriver" for configuration "MinSizeRel"
 set_property(TARGET LLVMDlltoolDriver APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
@@ -1685,7 +1586,7 @@ list(APPEND _cmake_import_check_files_for_llvm-exegesis "${_IMPORT_PREFIX}/bin/l
 set_property(TARGET LLVMExegesisX86 APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMExegesisX86 PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMExegesisX86.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMExegesis;LLVMMC;LLVMSupport;LLVMTargetParser;LLVMX86CodeGen;LLVMX86AsmParser;LLVMX86Desc;LLVMX86Disassembler;LLVMX86Info"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMX86CodeGen;LLVMX86AsmParser;LLVMX86Desc;LLVMX86Disassembler;LLVMX86Info;LLVMExegesis;LLVMCore;LLVMSupport;LLVMTargetParser;LLVMCodeGen;LLVMMC"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMExegesisX86.dll"
   )
 
@@ -1696,7 +1597,7 @@ list(APPEND _cmake_import_check_files_for_LLVMExegesisX86 "${_IMPORT_PREFIX}/lib
 set_property(TARGET LLVMExegesisAArch64 APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMExegesisAArch64 PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMExegesisAArch64.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAArch64CodeGen;LLVMAArch64AsmParser;LLVMAArch64Desc;LLVMAArch64Disassembler;LLVMAArch64Info;LLVMAArch64Utils;LLVMCodeGenTypes;LLVMCore;LLVMExegesis;LLVMMC;LLVMSupport"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAArch64CodeGen;LLVMAArch64AsmParser;LLVMAArch64Desc;LLVMAArch64Disassembler;LLVMAArch64Info;LLVMAArch64Utils;LLVMExegesis;LLVMCore;LLVMSupport;LLVMMC"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMExegesisAArch64.dll"
   )
 
@@ -1707,7 +1608,7 @@ list(APPEND _cmake_import_check_files_for_LLVMExegesisAArch64 "${_IMPORT_PREFIX}
 set_property(TARGET LLVMExegesis APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(LLVMExegesis PROPERTIES
   IMPORTED_IMPLIB_MINSIZEREL "${_IMPORT_PREFIX}/lib/libLLVMExegesis.dll.a"
-  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMCodeGen;LLVMCodeGenTypes;LLVMCore;LLVMExecutionEngine;LLVMGlobalISel;LLVMMC;LLVMMCA;LLVMMCDisassembler;LLVMMCParser;LLVMObject;LLVMObjectYAML;LLVMOrcJIT;LLVMRuntimeDyld;LLVMSupport;LLVMTargetParser"
+  IMPORTED_LINK_DEPENDENT_LIBRARIES_MINSIZEREL "LLVMAnalysis;LLVMCodeGen;LLVMCore;LLVMExecutionEngine;LLVMGlobalISel;LLVMMC;LLVMMCA;LLVMMCDisassembler;LLVMMCJIT;LLVMMCParser;LLVMObject;LLVMObjectYAML;LLVMRuntimeDyld;LLVMSupport;LLVMTargetParser"
   IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/libLLVMExegesis.dll"
   )
 
@@ -1912,15 +1813,6 @@ set_target_properties(llvm-readobj PROPERTIES
 list(APPEND _cmake_import_check_targets llvm-readobj )
 list(APPEND _cmake_import_check_files_for_llvm-readobj "${_IMPORT_PREFIX}/bin/llvm-readobj.exe" )
 
-# Import target "llvm-readtapi" for configuration "MinSizeRel"
-set_property(TARGET llvm-readtapi APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
-set_target_properties(llvm-readtapi PROPERTIES
-  IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/llvm-readtapi.exe"
-  )
-
-list(APPEND _cmake_import_check_targets llvm-readtapi )
-list(APPEND _cmake_import_check_files_for_llvm-readtapi "${_IMPORT_PREFIX}/bin/llvm-readtapi.exe" )
-
 # Import target "llvm-reduce" for configuration "MinSizeRel"
 set_property(TARGET llvm-reduce APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(llvm-reduce PROPERTIES
@@ -1929,6 +1821,15 @@ set_target_properties(llvm-reduce PROPERTIES
 
 list(APPEND _cmake_import_check_targets llvm-reduce )
 list(APPEND _cmake_import_check_files_for_llvm-reduce "${_IMPORT_PREFIX}/bin/llvm-reduce.exe" )
+
+# Import target "llvm-remark-size-diff" for configuration "MinSizeRel"
+set_property(TARGET llvm-remark-size-diff APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
+set_target_properties(llvm-remark-size-diff PROPERTIES
+  IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/llvm-remark-size-diff.exe"
+  )
+
+list(APPEND _cmake_import_check_targets llvm-remark-size-diff )
+list(APPEND _cmake_import_check_files_for_llvm-remark-size-diff "${_IMPORT_PREFIX}/bin/llvm-remark-size-diff.exe" )
 
 # Import target "llvm-remarkutil" for configuration "MinSizeRel"
 set_property(TARGET llvm-remarkutil APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
@@ -2001,6 +1902,15 @@ set_target_properties(llvm-symbolizer PROPERTIES
 
 list(APPEND _cmake_import_check_targets llvm-symbolizer )
 list(APPEND _cmake_import_check_files_for_llvm-symbolizer "${_IMPORT_PREFIX}/bin/llvm-symbolizer.exe" )
+
+# Import target "llvm-tapi-diff" for configuration "MinSizeRel"
+set_property(TARGET llvm-tapi-diff APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
+set_target_properties(llvm-tapi-diff PROPERTIES
+  IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/bin/llvm-tapi-diff.exe"
+  )
+
+list(APPEND _cmake_import_check_targets llvm-tapi-diff )
+list(APPEND _cmake_import_check_files_for_llvm-tapi-diff "${_IMPORT_PREFIX}/bin/llvm-tapi-diff.exe" )
 
 # Import target "llvm-tli-checker" for configuration "MinSizeRel"
 set_property(TARGET llvm-tli-checker APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
