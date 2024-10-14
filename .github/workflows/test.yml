@@ -40,8 +40,10 @@ jobs:
     - name: Configure CMake with g++ on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        # Run CMake using MinGW's g++
-        ${{ github.workspace }}/mingw32/bin/cmake.exe -B build -DCMAKE_CXX_COMPILER=${{ github.workspace }}/mingw32/bin/g++ -G "Unix Makefiles" -S .
+        # Set the CXX environment variable to MinGW g++.exe
+        export CXX="${{ github.workspace }}/mingw32/bin/g++.exe"
+        # Run CMake
+        ${{ github.workspace }}/mingw32/bin/cmake.exe -B build -G "Unix Makefiles" -S .
 
     - name: Configure CMake with g++ on Ubuntu
       if: matrix.os == 'ubuntu-latest'
