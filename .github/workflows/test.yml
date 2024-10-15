@@ -31,16 +31,24 @@ jobs:
       run: |
         echo "${{ github.workspace }}/mingw64/bin" >> $GITHUB_PATH
 
+    - name: Create necessary directories
+      if: matrix.os == 'windows-latest'
+      run: |
+        mkdir -p D:/a/rtype_test/rtype_test/build/_deps/boost-build/libs/log/src/windows
+
+    - name: Check write permissions
+      if: matrix.os == 'windows-latest'
+      run: |
+        echo "Checking permissions for the directory:"
+        dir D:/a/rtype_test/rtype_test/build/_deps/boost-build/libs/log/src/windows
+
     - name: Configure CMake with g++ on Windows
       if: matrix.os == 'windows-latest'
       shell: pwsh
       run: |
-        # Define a temporary build directory to avoid path issues
         $buildDir = "${{ github.workspace }}/build"
         $env:CXX="${{ github.workspace }}/mingw64/bin/g++.exe"
         $env:CC="${{ github.workspace }}/mingw64/bin/gcc.exe"
-        
-        # Run CMake
         ${{ github.workspace }}/mingw64/bin/cmake.exe -B $buildDir -G "Unix Makefiles" -S .
 
     - name: Configure CMake with g++ on Ubuntu
@@ -48,8 +56,15 @@ jobs:
       run: |
         cmake -B build -DCMAKE_CXX_COMPILER=g++ -G "Unix Makefiles" -S .
 
-    - name: Build rtype on both platforms
+    - name: Build rtype on Ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: make -C build
+
+    - name: Build rtype on Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        cd build
+        mingw32-make.exe
 
     - name: Test rtype on both platforms
       working-directory: build
